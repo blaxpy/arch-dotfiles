@@ -1,0 +1,194 @@
+- hosts: all
+  become: true
+
+  vars:
+    _user_name: "{{ user_name | default('denis') }}"
+
+  tasks:
+    - name: Set timezone to Europe/Moscow
+      timezone:
+        name: Europe/Moscow
+
+    - name: Upgrade distribution
+      apt:
+        upgrade: dist
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Install apt packages
+      apt:
+        pkg:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg-agent
+          - software-properties-common
+
+          - gcc
+          - libevent-dev
+          - libncurses5-dev
+          - libncursesw5-dev
+
+          - python-dev
+          - python-pip
+          - python3-dev
+          - python3-pip
+
+          - xclip
+          - htop
+          - virtualenvwrapper
+
+          - fonts-powerline
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Create directories
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "/home/{{ _user_name }}/Downloads"
+        - "/home/{{ _user_name }}/.zsh"
+      become_user: "{{ _user_name }}"
+
+    - name: Download tmux
+      get_url:
+        url: "https://github.com/tmux/tmux/releases/download/2.9a/tmux-2.9a.tar.gz"
+        dest: "/home/{{ _user_name }}/Downloads/tmux.tar.gz"
+        mode: "u=rwx,g=rx,o=rx"
+      become_user: "{{ _user_name }}"
+
+    - name: Extract tmux archive
+      unarchive:
+        src: "/home/{{ _user_name }}/Downloads/tmux.tar.gz"
+        dest:  "/home/{{ _user_name }}/Downloads"
+      become_user: "{{ _user_name }}"
+      notify:
+        - install tmux
+
+    - name: Install fd
+      apt:
+        deb: https://github.com/sharkdp/fd/releases/download/v7.4.0/fd_7.4.0_amd64.deb
+
+    - name: Install ripgrep
+      apt:
+        deb: https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb
+
+    - name: Install pip packages
+      pip:
+        name:
+          - neovim
+          - thefuck
+        executable: pip3
+
+    - name: Add Neovim's apt repository
+      apt_repository:
+        # codename (bionic) = lsb_release -cs
+        repo: ppa:neovim-ppa/stable
+        update_cache: false
+      notify:
+        - update apt cache
+
+    - name: Add Git's apt repository
+      apt_repository:
+        repo: ppa:git-core/ppa
+        update_cache: false
+      notify:
+        - update apt cache
+
+    - name: Add Docker’s official GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+      notify:
+        - update apt cache
+
+    - name: Add Docker's apt repository
+      apt_repository:
+        # codename (bionic) = lsb_release -cs
+        repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_facts['lsb']['codename'] }} stable"
+        update_cache: false
+      notify:
+        - update apt cache
+
+    # Run all handlers before installing packages from newly added repositories
+    - meta: flush_handlers
+
+    # Install Docker and docker-compose
+    - name: Install remaining apt packages
+      apt:
+        pkg:
+          - neovim
+          - git
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+
+    - name: Install oh-my-zsh
+      git:
+        repo: https://github.com/robbyrussell/oh-my-zsh.git
+        dest: "/home/{{ _user_name }}/.oh-my-zsh"
+        version: master
+      become_user: "{{ _user_name }}"
+
+    - name: Install powerlevel10k theme
+      git:
+        repo: https://github.com/romkatv/powerlevel10k.git
+        dest: "/home/{{ _user_name }}/.oh-my-zsh/themes/powerlevel10k"
+        version: master
+        depth: 1
+      become_user: "{{ _user_name }}"
+
+    - name: Install zsh-autosuggestions
+      git:
+        repo: https://github.com/zsh-users/zsh-autosuggestions
+        dest: "/home/{{ _user_name }}/.zsh/zsh-autosuggestions"
+        version: master
+      become_user: "{{ _user_name }}"
+
+    - name: Install zsh-syntax-highlighting
+      git:
+        repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
+        dest: "/home/{{ _user_name }}/.zsh/zsh-syntax-highlighting"
+        version: master
+      become_user: "{{ _user_name }}"
+
+    - name: Install fzf
+      git:
+        repo: https://github.com/junegunn/fzf.git
+        dest: "/home/{{ _user_name }}/.fzf"
+        version: master
+        depth: 1
+      become_user: "{{ _user_name }}"
+      notify:
+        - install fzf
+
+    - name: Install docker-compose
+      get_url:
+        # system (Linux) = uname -s; userspace_architecture (x86_64) = uname -m
+        url: "https://github.com/docker/compose/releases/download/1.24.1/\
+          docker-compose-{{ ansible_facts['system'] }}-{{ ansible_facts['userspace_architecture'] }}"
+        dest: /usr/local/bin/docker-compose
+        mode: "u=rwx,g=rx,o=rx"
+
+    - name: Add a _user_name to 'docker' group
+      user:
+        name: "{{ _user_name }}"
+        groups: docker
+        append: true
+
+  handlers:
+    - name: update apt cache
+      apt:
+        update_cache: true
+
+    - name: install tmux
+      command: "{{ item }}"
+      args:
+        chdir: "/home/{{ _user_name }}/Downloads/tmux-2.9a"
+      with_items:
+        - ./configure
+        - make
+        - make install
+
+    - name: install fzf
+      command: "/home/{{ _user_name }}/.fzf/install --bin"

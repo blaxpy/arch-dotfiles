@@ -1,0 +1,161 @@
+set clipboard=unnamedplus
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
+set showmode
+
+" IdeaVim specific
+set clipboard+=ideaput
+" https://github.com/JetBrains/ideavim/wiki/%60ideajoin%60-examples
+set ideajoin
+
+" Emulated Vim plugins
+set surround
+set multiple-cursors
+set commentary
+
+let mapleader = ','
+noremap \ ,
+
+" Reread the configuration file
+noremap \r :source ~/.ideavimrc<cr>
+
+" Smart selection (not working)
+" vnoremap + :action SmartSelect<cr>
+" vnoremap - :action SmartUnSelect<cr>
+
+" Yank from cursor to end of line like 'C' and 'D'
+nnoremap Y y$
+
+" Clear the highlighting of :set hlsearch
+nnoremap <c-l> :nohlsearch<cr>
+
+" Windows
+" nnoremap <c-h> <c-w>h
+" nnoremap <c-j> <c-w>j
+" nnoremap <c-k> <c-w>k
+" nnoremap <c-l> <c-w>l
+" NOTE: Uncomment if tabs are enabled
+" nnoremap <c-w>u :action MoveTabRight<cr>
+" nnoremap <c-w>m :action MoveTabDown<cr>
+
+" Navigation
+" Built-in jumping to previously visited locations works better
+nnoremap <c-o> :action Back<cr>
+nnoremap <c-i> :action Forward<cr>
+
+nnoremap <space>a :action GotoAction<cr>
+nnoremap <space>b :action AceWordBackwardsAction<cr>
+nnoremap <space>c :action GotoClass<cr>
+" nnoremap <space>d :action <cr>
+nnoremap <space>e :action RecentChangedFiles<cr>
+nnoremap <space>f :action GotoFile<cr>
+" nnoremap <space>g :action AceTargetAction<cr>
+nnoremap <space>i :action GotoImplementation<cr>
+nnoremap <space>j :action AceLineAction<cr>
+nnoremap <space>l :action AceAction<cr>
+nnoremap <space>m :action GotoSuperMethod<cr>
+nnoremap <space>n :action ShowNavBar<cr>
+nnoremap <space>p :action FindInPath<cr>
+nnoremap <space>x :action GotoRelated<cr>
+nnoremap <space>r :action RecentFiles<cr>
+nnoremap <space>s :action GotoSymbol<cr>
+nnoremap <space>t :action GotoTest<cr>
+nnoremap <space>u :action ShowUsages<cr>
+nnoremap <space>w :action AceWordForwardAction<cr>
+vnoremap <space>a :action GotoAction<cr>
+vnoremap <space>c :action GotoClass<cr>
+vnoremap <space>f :action GotoFile<cr>
+vnoremap <space>p :action FindInPath<cr>
+vnoremap <space>s :action GotoSymbol<cr>
+
+" Unimpaired
+nnoremap [<space> O<esc>j
+nnoremap ]<space> o<esc>k
+nnoremap [e :action MoveLineUp<cr>
+nnoremap ]e :action MoveLineDown<cr>
+nnoremap [r :action MoveStatementUp<cr>
+nnoremap ]r :action MoveStatementDown<cr>
+nnoremap [c :action VcsShowPrevChangeMarker<cr>
+nnoremap ]c :action VcsShowNextChangeMarker<cr>
+nnoremap ]l :action GotoNextError<cr>
+nnoremap [l :action GotoPreviousError<cr>
+vnoremap [u :action osmedile.intellij.stringmanip.URLEncodeAction<cr>
+vnoremap ]u :action osmedile.intellij.stringmanip.URLDecodeAction<cr>
+
+" Commenting
+" vnoremap gc :action CommentByLineComment<cr>
+" nnoremap gcc :action CommentByLineComment<cr>
+
+" Search
+nnoremap <leader>/ :action Find<cr>
+vnoremap <leader>/ :action Find<cr>
+nnoremap <leader>u :action FindUsages<cr>
+
+" Hierarchy
+nnoremap <leader>ht :action TypeHierarchy<cr>
+nnoremap <leader>hm :action MethodHierarchy<cr>
+nnoremap <leader>hc :action CallHierarchy<cr>
+
+" Formatting
+" nnoremap <leader>oi :action OptimizeImports<cr>
+" nnoremap <leader>oo :action ReformatCode<cr>
+" vnoremap <leader>oo :action ReformatCode<cr>
+" nnoremap <leader>oa :action AutoIndentLines<cr>
+" vnoremap <leader>oa :action AutoIndentLines<cr>
+
+" External tools
+nnoremap <leader>oi :action Tool_External Tools_Isort<cr>
+nnoremap <leader>oo :action Tool_External Tools_Black<cr>
+nnoremap <leader>ep :action Tool_External Tools_Pylint<cr>
+nnoremap <leader>ef :action Tool_External Tools_Flake8<cr>
+nnoremap <leader>eb :action Tool_External Tools_Bandit<cr>
+
+" Refactoring
+nnoremap <leader>rr :action Refactorings.QuickListPopupAction<cr>
+nnoremap <leader>re :action RenameElement<cr>
+nnoremap <leader>rv :action IntroduceVariable<cr>
+nnoremap <leader>rc :action IntroduceConstant<cr>
+nnoremap <leader>rf :action IntroduceField<cr>
+nnoremap <leader>rp :action IntroduceParameter<cr>
+nnoremap <leader>rm :action ExtractMethod<cr>
+nnoremap <leader>rs :action ExtractSuperclass<cr>
+" nnoremap <leader>ru :action <cr>
+" nnoremap <leader>rd :action <cr>
+
+" Surrond commands
+nnoremap <leader>ss :action SurroundWith<cr>
+vnoremap <leader>ss :action SurroundWith<cr>
+nnoremap <leader>se :action SurroundWithEmmet<cr>
+vnoremap <leader>se :action SurroundWithEmmet<cr>
+nnoremap <leader>sl :action SurroundWithLiveTemplate<cr>
+vnoremap <leader>sl :action SurroundWithLiveTemplate<cr>
+
+" Debug configuration
+nnoremap <leader>dd :action Debug<cr>
+nnoremap <leader>dc :action ChooseDebugConfiguration<cr>
+nnoremap <leader>db :action ToggleLineBreakpoint<cr>
+nnoremap <leader>dv :action ViewBreakpoints<cr>
+
+" Run configuration
+nnoremap <leader>ff :action Run<cr>
+nnoremap <leader>fc :action ChooseRunConfiguration<cr>
+
+" Git
+nnoremap <leader>gg :action Vcs.QuickListPopupAction<cr>
+nnoremap <leader>gad :action Git.Add<cr>
+nnoremap <leader>gan :action Annotate<cr>
+nnoremap <leader>gbr :action Git.Branches<cr>
+nnoremap <leader>gcm :action CheckinFiles<cr>
+nnoremap <leader>ghs :action Vcs.Show.Log<cr>
+nnoremap <leader>gmr :action Git.Merge<cr>
+nnoremap <leader>gpl :action Git.Pull<cr>
+nnoremap <leader>gps :action Vcs.Push<cr>
+nnoremap <leader>gss :action Git.Stash<cr>
+nnoremap <leader>gst :action Vcs.Show.Local.Changes<cr>
+nnoremap <leader>gsu :action Git.Unstash<cr>
+
+" Live templates
+nnoremap <leader>ll :action InsertLiveTemplate<cr>
+

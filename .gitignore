@@ -1,0 +1,48 @@
+# IGNORE
+# ignore all directories and files by default
+/*
+
+# TRACK
+!/.gitignore
+
+# ansible
+!/ansible/
+
+# git
+
+# ssh
+!/.ssh/
+/.ssh/*/
+/.ssh/*
+!.ssh/config_example
+
+# nautilus templates
+!Templates/
+
+# config files
+!/.profile
+!/.zshrc
+!/.bashrc
+!/.aliases
+!/.bash_aliases
+!/.inputrc
+!/.gitconfig
+!/.ideavimrc
+!/.tmux.conf.local
+
+# config directory
+!/.config/
+/.config/*/
+/.config/*
+
+# neovim
+!/.config/nvim/
+/.config/nvim/*
+!/.config/nvim/init.vim
+
+# ipython
+!/.ipython/
+/.ipython/*
+!/.ipython/profile_default/
+/.ipython/profile_default/*
+!/.ipython/profile_default/ipython_config.py

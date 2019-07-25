@@ -1,0 +1,62 @@
+[user]
+    email = dsavran@alytics-team.com
+    name = Denis Savran
+[core]
+    autocrlf = false
+    safecrlf = true
+    editor = vim
+
+[alias]
+    ec = config --global -e
+;     alias = config --get-regexp 'alias.*'
+
+;     ad = add
+;     br = branch
+;     ch = checkout
+;     cm = commit
+;     mr = merge
+;     pl = pull
+;     ps = push
+;     st = status --short
+;     su = submodule update
+;     hs = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+;     last = log -1 HEAD
+;     type = cat-file -t
+;     dump = cat-file -p
+
+;     ; Unstage file
+;     us = reset HEAD --
+;     ; Discard changes
+;     dc = checkout HEAD --
+;     isignored = check-ignore -v --
+;     cleanup = !git reset --hard && git clean -f
+;     undoamend = !git branch fixing-things HEAD@{1} && git reset fixing-things && git branch -D fixing-things
+;     ; Save named stash
+;     ssave = stash save
+;     ; Show stash changes
+;     sshow = "!f() { git stash show stash^{/$*} -p; }; f"
+;     ; Apply stash changes
+;     sapply = "!f() { git stash apply stash^{/$*}; }; f"
+
+;     ; Custom tools
+;     dt = difftool
+;     mt = mergetool
+; [diff]
+;     tool = charm
+; [difftool]
+;     prompt = true
+;     ; prompt = false
+; [difftool "charm"]
+;     cmd = charm diff "$LOCAL" "$REMOTE"
+; [merge]
+;     tool = charm
+; [mergetool]
+;     ; prompt = true
+;     prompt = false
+; [mergetool "charm"]
+;     cmd = charm merge "$LOCAL" "$REMOTE" "$BASE" "$MERGED"
+
+[url "ssh://git@github.com/"]
+    insteadOf = https://github.com/
+[push]
+    default = current
