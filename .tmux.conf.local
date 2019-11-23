@@ -193,10 +193,9 @@ set -g history-limit 20000
 # start with mouse mode enabled
 set -g mouse on
 
-# force Vi mode
-#   really you should export VISUAL or EDITOR environment variable, see manual
-# set -g status-keys vi
-# set -g mode-keys vi
+# Enable Vi mode
+set -g status-keys vi
+set -g mode-keys vi
 
 # Use C-a prefix. This allows to created nested tmux sessions:
 #   - local tmux session has C-a prefix
