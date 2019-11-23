@@ -198,9 +198,14 @@ set -g mouse on
 # set -g status-keys vi
 # set -g mode-keys vi
 
-# replace C-b by C-a instead of using both prefixes
+# Use C-a prefix. This allows to created nested tmux sessions:
+#   - local tmux session has C-a prefix
+#   - remote ssh host tmux session has C-b prefix
 set -gu prefix2
 unbind C-a
+unbind C-b
+set -g prefix C-a
+bind C-a send-prefix
 
 # move status line to top
 #set -g status-position top
