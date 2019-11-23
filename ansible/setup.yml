@@ -24,6 +24,7 @@
           - gnupg-agent
           - software-properties-common
 
+          - make
           - gcc
           - libevent-dev
           - libncurses5-dev
@@ -62,7 +63,9 @@
       unarchive:
         src: "/home/{{ _user_name }}/Downloads/tmux.tar.gz"
         dest:  "/home/{{ _user_name }}/Downloads"
-      become_user: "{{ _user_name }}"
+        remote_src: true
+        owner: "{{ _user_name }}"
+        group: "{{ _user_name }}"
       notify:
         - install tmux
 
