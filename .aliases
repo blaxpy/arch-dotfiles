@@ -1,12 +1,16 @@
-# Send notification
-# Usage:
-#   sleep 1; alert "Notification message"
-alias alert='notify-send --urgency=low -i terminal Finished'
-
 # 'alias-finder' oh-my-zsh plugin
 alias af='alias-finder'
 alias afe='alias-finder --exact'
 alias afl='alias-finder --longer'
+
+# Editor
+alias vi=nvim
+alias vim=nvim
+
+# Send notification
+# Usage:
+#   sleep 1; alert "Notification message"
+alias alert='notify-send --urgency=low -i terminal Finished'
 
 # fd
 # Unalias aliases from 'common-aliases' oh-my-zsh plugin
