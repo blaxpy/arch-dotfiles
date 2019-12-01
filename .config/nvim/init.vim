@@ -32,6 +32,8 @@ Plug 'https://github.com/google/vim-searchindex'
 Plug 'https://github.com/vim-python/python-syntax'
 
 " Editing
+" https://www.csslayer.info/wordpress/fcitx-dev/how-to-use-fcitx-on-ubuntu-17-10/
+Plug 'https://github.com/lilydjwg/fcitx.vim'
 Plug 'https://github.com/terryma/vim-multiple-cursors'
 Plug 'https://github.com/terryma/vim-expand-region'
 Plug 'https://github.com/tpope/vim-repeat'
@@ -98,6 +100,11 @@ Plug 'https://github.com/rakr/vim-one'
 call plug#end()
 
 " GENERAL
+" fcitx plugin provides better functionality
+" https://vimhelp.org/russian.txt.html#Russian
+" set keymap=russian-jcukenwin
+" set langmap=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz
+
 " Reduce upate time from 4s to 100ms
 set updatetime=100
 " Copy to a X11 "+ clipboard register

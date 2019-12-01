@@ -8,8 +8,6 @@
 # ansible
 !/ansible/
 
-# git
-
 # ssh
 !/.ssh/
 /.ssh/*/
@@ -21,6 +19,7 @@
 
 # config files
 !/.profile
+!/.pam_environment
 !/.zshrc
 !/.bashrc
 !/.aliases
