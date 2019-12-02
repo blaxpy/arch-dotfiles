@@ -21,8 +21,6 @@ Plug 'https://github.com/tpope/vim-sensible'
 Plug 'https://github.com/scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 " DEPENDENCY: https://github.com/scrooloose/nerdtree
 Plug 'https://github.com/Xuyuanp/nerdtree-git-plugin', {'on': 'NERDTreeToggle'}
-" Already in YouCompleteMe
-" Plug 'https://github.com/ervandew/supertab'
 Plug 'https://github.com/junegunn/fzf.vim'
 
 " Visual
@@ -60,7 +58,6 @@ Plug 'https://github.com/vim-syntastic/syntastic'
 
 " Auto-completion
 Plug 'https://github.com/Valloric/YouCompleteMe'
-" Plug 'https://github.com/Shougo/deoplete.nvim'
 
 " Programming
 " DEPENDENCY: https://github.com/universal-ctags/ctags/blob/master/docs/autotools.rst
@@ -70,8 +67,6 @@ Plug 'https://github.com/majutsushi/tagbar'
 Plug 'https://github.com/SirVer/ultisnips'
 Plug 'https://github.com/honza/vim-snippets'
 Plug 'https://github.com/tpope/vim-endwise'
-" Switching between a single-line statement and a multi-line one
-" Plug 'https://github.com/AndrewRadev/splitjoin.vim'
 
 " Git
 Plug 'https://github.com/airblade/vim-gitgutter'
@@ -83,27 +78,16 @@ Plug 'https://github.com/tpope/vim-rhubarb'
 Plug 'https://github.com/tmhedberg/SimpylFold'
 " DEPENDENCY: https://github.com/timothycrosley/isort
 Plug 'https://github.com/fisadev/vim-isort', {'for': 'python'}
-" DEPENDENCY: https://github.com/google/yapf
 Plug 'https://github.com/Chiel92/vim-autoformat'
-" Plug 'https://github.com/zchee/deoplete-jedi', {'for': 'python'}
 
 " Emmet
 Plug 'https://github.com/mattn/emmet-vim'
-
-" Docker
-" Plug 'https://github.com/ekalinin/Dockerfile.vim'
 
 " Color themes
 Plug 'https://github.com/rakr/vim-one'
 " Plug 'https://github.com/morhetz/gruvbox'
 " Plug 'https://github.com/NLKNguyen/papercolor-theme'
 call plug#end()
-
-" GENERAL
-" fcitx plugin provides better functionality
-" https://vimhelp.org/russian.txt.html#Russian
-" set keymap=russian-jcukenwin
-" set langmap=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz
 
 " Reduce upate time from 4s to 100ms
 set updatetime=100
@@ -126,18 +110,16 @@ set hidden
 " Insert one space after a '.', '?' and '!' with a join command.
 set nojoinspaces
 
-" Windows
-" nnoremap <c-h> <c-w>h
-" nnoremap <c-j> <c-w>j
-" nnoremap <c-k> <c-w>k
-" nnoremap <c-l> <c-w>l
-
 " Expansion of the active file directory
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
-nmap <leader>ew :e %%
-nmap <leader>es :sp %%
-nmap <leader>ev :vsp %%
-nmap <leader>et :tabe %%
+" edit a file in a new buffer
+nmap <leader><leader>ew :e %%
+" edit a file in a new tab
+nmap <leader><leader>et :tabe %%
+" edit a file in a horizontal split
+nmap <leader><leader>es :sp %%
+" edit a file in a vertical split
+nmap <leader><leader>ev :vsp %%
 
 " Yank from cursor to end of line like 'C' and 'D'
 nnoremap Y y$
@@ -189,21 +171,12 @@ set background=light
 colorscheme one
 let g:airline_theme='one'
 
-" gruvbox
-" colorscheme gruvbox
-" let g:airline_theme='gruvbox'
-" let g:gruvbox_contrast_dark = 'hard'
-" let g:gruvbox_contrast_light = 'hard'
-
-" paper-color
-" colorscheme PaperColor
-
 " python-syntax
 let g:python_highlight_all = 1
 
 " AIRLINE
 " https://github.com/powerline/fonts
-" let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 1
 
 " let g:airline#extensions#tabline#enabled = 1
 " let g:airline#extensions#tabline#left_sep = ' '
@@ -213,12 +186,15 @@ let g:python_highlight_all = 1
 let g:indentLine_char = '⎸'
 
 " VIM-EASYMOTION
-map <space> <Plug>(easymotion-prefix)
+map <leader> <Plug>(easymotion-prefix)
+
+" NERDTREE
+nnoremap <space>n :NERDTreeToggle<CR>
 
 " FZF
 nnoremap <space>f :Files<cr>
 nnoremap <space>p :Lines<cr>
-nnoremap <space>r :Buffers<cr>
+nnoremap <space>e :Buffers<cr>
 nnoremap <space>s :Tags<cr>
 
 " SYNTASTIC
@@ -250,12 +226,14 @@ let g:UltiSnipsJumpForwardTrigger = "<c-b>"
 let g:UltiSnipsJumpBackwardTrigger = "<c-z>"
 
 " YOUCOMPLETEME
-" Read tags from Ctags file
-let g:ycm_collect_identifiers_from_tags_files = 1
+" cd ~/.local/share/nvim/plugged/YouCompleteMe/ && python3 install.py
+let g:ycm_min_num_of_chars_for_completion = 1
 " Completion for programming language's keyword
 let g:ycm_seed_identifiers_with_syntax = 1
 let g:ycm_complete_in_comments = 1
 let g:ycm_complete_in_strings = 1
+" Read tags from Ctags file
+" let g:ycm_collect_identifiers_from_tags_files = 1
 
 " DEOPLETE
 " let g:deoplete#enable_at_startup = 1
@@ -275,7 +253,7 @@ let g:gitgutter_max_signs = 1000
 " VIM-ISORT
 let g:vim_isort_config_overrides = { 'multi_line_output': 3,'include_trailing_comma': 1, 'force_grid_wrap': 0, 'use_parentheses': 1, 'line_length': 120}
 let g:vim_isort_python_version = 'python3'
-noremap <leader>oi :Isort<CR>
+noremap <leader>i :Isort<CR>
 
 " VIM-AUTOFORMAT
 " Enable debug mode
@@ -304,5 +282,4 @@ let g:formatdef_jsbeautify_html = '"html-beautify --indent-size=2 -"'
 let g:formatters_css = ['jsbeautify_css']
 let g:formatdef_jsbeautify_css = '"css-beautify --indent-size=2 -"'
 
-noremap <leader>oo :Autoformat<CR>
-
+noremap <leader>o :Autoformat<CR>

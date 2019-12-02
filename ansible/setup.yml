@@ -26,6 +26,7 @@
 
           - make
           - gcc
+          - build-essential
           - libevent-dev
           - libncurses5-dev
           - libncursesw5-dev

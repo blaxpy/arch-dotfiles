@@ -10,7 +10,8 @@ let mapleader = ','
 noremap \ ,
 
 " IdeaVimExtension
-set keep-english-in-normal-and-restore-in-insert
+set keep-english-in-normal
+" set keep-english-in-normal-and-restore-in-insert
 
 " Easymotion
 nmap <leader> <Plug>(easymotion-prefix)
@@ -53,6 +54,8 @@ nnoremap <space>r :action Run<cr>
 nnoremap <space>R :action Rerun<cr>
 nnoremap <space>t :action GotoTest<cr>
 nnoremap <space>T :action GotoRelated<cr>
+nnoremap <space>y :action ShowUmlDiagramPopup<cr>
+nnoremap <space>Y :action ShowUmlDiagram<cr>
 nnoremap <space>u :action ShowUsages<cr>
 nnoremap <space>U :action FindUsages<cr>
 nnoremap <space>i :action GotoImplementation<cr>
@@ -73,15 +76,17 @@ nnoremap <leader><leader>r :action ChooseRunConfiguration<cr>
 nnoremap <leader><leader>t :action Refactorings.QuickListPopupAction<cr>
 
 " Middle row
-nnoremap <space>a :action Annotate<cr>
+nnoremap <space>a :action GotoAction<cr>
 nnoremap <space>s :action GotoSymbol<cr>
 vnoremap <space>s :action GotoSymbol<cr>
 nnoremap <space>d :action Debug<cr>
 nnoremap <space>f :action GotoFile<cr>
 vnoremap <space>f :action GotoFile<cr>
-nnoremap <space>g :action GotoAction<cr>
-nnoremap <space>h :action CallHierarchy<cr>
-nnoremap <space>H :action TypeHierarchy<cr>
+nnoremap <space>g :action Annotate<cr>
+nnoremap <space>k :action CallHierarchy<cr>
+nnoremap <space>h :action TypeHierarchy<cr>
+nnoremap <space>j :action ActivateStructureToolWindow<cr>
+nnoremap <space>J :action FileStructurePopup<cr>
 
 nnoremap <leader><leader>s :action SurroundWith<cr>
 vnoremap <leader><leader>s :action SurroundWith<cr>
@@ -94,7 +99,8 @@ nnoremap <space>x :action CopyReference<cr>
 nnoremap <space>c :action GotoClass<cr>
 vnoremap <space>c :action GotoClass<cr>
 nnoremap <space>b :action ToggleLineBreakpoint<cr>
-nnoremap <space>n :action ShowNavBar<cr>
+nnoremap <space>n :action ActivateProjectToolWindow<cr>
+nnoremap <space>m :action ShowNavBar<cr>
 nnoremap <space>/ :action Find<cr>
 vnoremap <space>/ :action Find<cr>
 nnoremap <space>? :action Replace<cr>
