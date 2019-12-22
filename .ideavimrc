@@ -10,8 +10,8 @@ let mapleader = ','
 noremap \ ,
 
 " IdeaVimExtension
-set keep-english-in-normal
-" set keep-english-in-normal-and-restore-in-insert
+" set keep-english-in-normal
+set keep-english-in-normal-and-restore-in-insert
 
 " Easymotion
 nmap <leader> <Plug>(easymotion-prefix)
