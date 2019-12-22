@@ -5,10 +5,11 @@
     autocrlf = false
     safecrlf = true
     editor = nvim
-
+    ; https://stackoverflow.com/a/14118014
+    ; pager = less --quit-if-one-screen --no-init
 [alias]
-    ec = config --global -e
-;     alias = config --get-regexp 'alias.*'
+    alias = !git config --get-regexp 'alias.*' | cut -d '.' -f 2
+    ec = config --global --edit
 
 ;     ad = add
 ;     br = branch
@@ -55,7 +56,6 @@
 ;     prompt = false
 ; [mergetool "charm"]
 ;     cmd = charm merge "$LOCAL" "$REMOTE" "$BASE" "$MERGED"
-
 [url "ssh://git@github.com/"]
     insteadOf = https://github.com/
 [push]

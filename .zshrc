@@ -146,8 +146,12 @@ fi
 eval "$(thefuck --alias f)"
 # export THEFUCK_REQUIRE_CONFIRMATION="false"
 
+# Prevent git from always using pager
+# https://stackoverflow.com/a/55711342
+unset LESS
+
 # Autosuggestions
-source "${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
+# source "${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
 # Syntax highlighting
 # `source` command must be at the end of the file!
