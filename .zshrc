@@ -92,46 +92,66 @@ plugins=(
 source "${ZSH}/oh-my-zsh.sh"
 
 # Vi-mode
-# Overrides `zle-keymap-select` function from 'vi-mode' oh-my-zsh plugin.
-function zle-keymap-select() {
-    # Runs when keymap changes.
-
-    # Update a keymap variable for a prompt.
-    VI_KEYMAP="${KEYMAP}"
-
-    if [[ "${KEYMAP}" == "vicmd" ]]; then
-        # Use a block cursor in 'normal' vi mode.
+if (( $+functions[zle-keymap-select] )); then
+    function _change_cursor_shape_to_block () {
         # For a blinking block cursor use '1'.
         print -n '\e[2 q'
-    else
-        # Use a beam cursor in 'insert' vi mode.
+    }
+
+    function _change_cursor_shape_to_beam () {
         # For a blinking beam cursor use '5'.
         print -n '\e[6 q'
+    }
+
+    # Always start a new shell with a beam cursor.
+    if (( $+functions[zle-line-init] )); then
+        # Override `zle-line-init` if it exists.
+        eval "original-$(declare -f zle-line-init)"
+
+        function zle-line-init () {
+            _change_cursor_shape_to_beam
+            original-zle-line-init
+        }
+    else
+      function zle-line-init () {
+        _change_cursor_shape_to_beam
+      }
     fi
 
-    zle reset-prompt
-    zle -R
-}
+    zle -N zle-line-init
 
-function zle-line-init() {
-    # Changes to 'insert' vi mode.
-    zle -K viins
-}
+    # Change cursor shape on vi mode change.
+    # Override `zle-keymap-select` from 'vi-mode' oh-my-zsh plugin.
+    eval "original-$(declare -f zle-keymap-select)"
 
-# Start every prompt in 'insert' vi mode.
-zle -N zle-line-init
+    function zle-keymap-select () {
+        if [[ "${KEYMAP}" == "vicmd" ]]; then
+            # Use a block cursor in 'normal' vi mode.
+            _change_cursor_shape_to_block
+        else
+            # Use a beam cursor in 'insert' vi mode.
+            _change_cursor_shape_to_beam
+        fi
+        original-zle-keymap-select
+    }
 
-function _vi_mode_reset_cursor() {
-    # Changes a cursor to a block cursor.
-    print -n '\e[2 q'
-}
+    # Reset the cursor shape before running an application.
+    autoload -U add-zsh-hook
+    add-zsh-hook preexec _change_cursor_shape_to_block
 
-autoload -U add-zsh-hook
-# Reset a cursor before running an application.
-add-zsh-hook preexec _vi_mode_reset_cursor
+    # 'insert' vi mode bindings
+    # https://github.com/zsh-users/zsh/blob/master/Src/Zle/iwidgets.list
+    bindkey '^U' backward-kill-line
+    bindkey '^K' kill-line
+    bindkey '^Y' yank
+    # Insert the last word with Alt-Dot.
+    bindkey '^[.' insert-last-word
+    # Cycle backwards through suggestions with Shift-Tab.
+    bindkey '^[[Z' reverse-menu-complete
 
-# Make vi mode transitions faster (1 = 10ms).
-export KEYTIMEOUT=1
+    # Decrease vi mode change time (1 = 10ms).
+    export KEYTIMEOUT=1
+fi
 
 # Manually read '.profile' when connecting with ssh.
 if [[ -n "${SSH_CLIENT}" ]] || [[ -n "${SSH_CONNECTION}" ]] || [[ -n "${SSH_TTY}" ]]; then
@@ -146,13 +166,16 @@ fi
 eval "$(thefuck --alias f)"
 # export THEFUCK_REQUIRE_CONFIRMATION="false"
 
-# Prevent git from always using pager
+# Prevent Git from always using pager
 # https://stackoverflow.com/a/55711342
 unset LESS
 
 # Autosuggestions
 # source "${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
+# https://github.com/zsh-users/zsh-autosuggestions/issues/363
+# ZSH_AUTOSUGGEST_IGNORE_WIDGETS+=(backward-kill-word)
 
 # Syntax highlighting
+# https://github.com/zsh-users/zsh-syntax-highlighting/issues/150
 # `source` command must be at the end of the file!
-source "${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+# source "${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
