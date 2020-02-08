@@ -34,6 +34,11 @@
 /.config/*/
 /.config/*
 
+# profile-sync-daemon
+!/.config/psd
+/.config/psd/*
+!/.config/psd/psd.conf
+
 # neovim
 !/.config/nvim/
 /.config/nvim/*
