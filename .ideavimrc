@@ -27,6 +27,9 @@ set surround
 set commentary
 set multiple-cursors
 set easymotion
+set ReplaceWithRegister
+set argtextobj
+set textobj-entire
 
 " Reread the configuration file
 noremap \r :source ~/.ideavimrc<cr>
@@ -51,7 +54,7 @@ nnoremap <space>w :action RecentChangedFiles<cr>
 nnoremap <space>e :action RecentFiles<cr>
 nnoremap <space>E :action RecentLocations<cr>
 nnoremap <space>r :action Run<cr>
-nnoremap <space>R :action Rerun<cr>
+nnoremap <space>R :action Build<cr>
 nnoremap <space>t :action GotoTest<cr>
 nnoremap <space>T :action GotoRelated<cr>
 nnoremap <space>y :action ShowUmlDiagramPopup<cr>
@@ -73,6 +76,7 @@ nnoremap <leader>O :action ReformatCode<cr>
 vnoremap <leader>O :action ReformatCode<cr>
 
 nnoremap <leader><leader>r :action ChooseRunConfiguration<cr>
+nnoremap <leader><leader>R :action CMake.BuildMenu<cr>
 nnoremap <leader><leader>t :action Refactorings.QuickListPopupAction<cr>
 
 " Middle row

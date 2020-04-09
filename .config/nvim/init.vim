@@ -40,10 +40,15 @@ Plug 'https://github.com/tpope/vim-unimpaired'
 Plug 'https://github.com/tpope/vim-speeddating'
 Plug 'https://github.com/tpope/vim-commentary'
 Plug 'https://github.com/tpope/vim-abolish'
-" DEPENDENCY: https://github.com/tpope/vim-repeat
+" DEPENDENCY: vim-repeat
 " Plug 'https://github.com/svermeulen/vim-easyclip'
 " USAGE: http://vimcasts.org/episodes/aligning-text-with-tabular-vim/
 Plug 'https://github.com/godlygeek/tabular'
+Plug 'https://github.com/vim-scripts/ReplaceWithRegister'
+Plug 'https://github.com/vim-scripts/argtextobj.vim'
+Plug 'https://github.com/kana/vim-textobj-user'
+" DEPENDENCY: vim-textobj-user
+Plug 'https://github.com/kana/vim-textobj-entire'
 
 " Navigation
 " DEPENDENCY: https://github.com/tpope/vim-repeat
