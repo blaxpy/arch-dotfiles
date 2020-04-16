@@ -27,6 +27,7 @@
 !/.inputrc
 !/.gitconfig
 !/.ideavimrc
+!/.vimrc
 !/.tmux.conf.local
 
 # config directory
@@ -43,6 +44,14 @@
 !/.config/nvim/
 /.config/nvim/*
 !/.config/nvim/init.vim
+
+# vscode
+!/.config/Code/
+/.config/Code/*
+!/.config/Code/User/
+/.config/Code/User/*
+!/.config/Code/User/settings.json
+!/.config/Code/User/keybindings.json
 
 # ipython
 !/.ipython/

@@ -1,0 +1,358 @@
+{
+    "workbench.colorTheme": "Default Light+",
+    "workbench.iconTheme": "vscode-icons",
+    "vim.easymotion": true,
+    "vim.foldfix": true,
+    "vim.hlsearch": true,
+    "vim.leader": "<space>",
+    "vim.neovimPath": "/usr/bin/nvim",
+    "vim.enableNeovim": true,
+    "vim.replaceWithRegister": true,
+    "vim.useSystemClipboard": true,
+    "vim.visualstar": true,
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<C-/>"
+            ],
+            "commands": [
+                ":nohl"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "e"
+            ],
+            "commands": [
+                "workbench.action.quickOpen"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "r"
+            ],
+            "commands": [
+                "editor.action.rename"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "s"
+            ],
+            "commands": [
+                "workbench.action.gotoSymbol"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "c"
+            ],
+            "commands": [
+                "python.goToPythonObject"
+            ]
+        },
+        {
+            "before": [
+                "\\",
+                "o"
+            ],
+            "commands": [
+                "editor.action.formatDocument"
+            ]
+        },
+        {
+            "before": [
+                "\\",
+                "i"
+            ],
+            "commands": [
+                "editor.action.organizeImports"
+            ]
+        },
+        {
+            "before": [
+                "\\",
+                "t"
+            ],
+            "commands": [
+                "editor.action.refactor"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "u"
+            ],
+            "commands": [
+                "editor.action.goToReferences"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "U"
+            ],
+            "commands": [
+                "references-view.find"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "i"
+            ],
+            "commands": [
+                "editor.action.goToImplementation"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "p"
+            ],
+            "commands": [
+                "workbench.action.findInFiles"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "P"
+            ],
+            "commands": [
+                "workbench.action.replaceInFiles"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "a"
+            ],
+            "commands": [
+                "workbench.action.showCommands"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "d"
+            ],
+            "commands": [
+                "git.openChange"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "D"
+            ],
+            "commands": [
+                "workbench.files.action.compareWithClipboard"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "f"
+            ],
+            "commands": [
+                "workbench.action.quickOpen"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "g"
+            ],
+            "commands": [
+                "gitlens.toggleFileBlame"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "n"
+            ],
+            "commands": [
+                "workbench.view.explorer"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "N"
+            ],
+            "commands": [
+                "workbench.files.action.showActiveFileInExplorer"
+            ]
+        },
+        {
+            "before": [
+                "\\",
+                "n"
+            ],
+            "commands": [
+                "revealFileInOS"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "m"
+            ],
+            "commands": [
+                "bookmarks.toggle"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "M"
+            ],
+            "commands": [
+                "bookmarks.list"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "/"
+            ],
+            "commands": [
+                "actions.find"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "?"
+            ],
+            "commands": [
+                "editor.action.startFindReplaceAction"
+            ],
+        },
+        {
+            "before": [
+                "[",
+                "l"
+            ],
+            "commands": [
+                "editor.action.marker.prev"
+            ]
+        },
+        {
+            "before": [
+                "]",
+                "l"
+            ],
+            "commands": [
+                "editor.action.marker.next"
+            ]
+        },
+        {
+            "before": [
+                "[",
+                "c"
+            ],
+            "commands": [
+                "editor.action.dirtydiff.previous"
+            ]
+        },
+        {
+            "before": [
+                "]",
+                "c"
+            ],
+            "commands": [
+                "editor.action.dirtydiff.next"
+            ]
+        },
+    ],
+    "vim.visualModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "+"
+            ],
+            "commands": [
+                "editor.action.smartSelect.expand"
+            ]
+        },
+        {
+            "before": [
+                "+"
+            ],
+            "commands": [
+                "editor.action.smartSelect.shrink"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "p"
+            ],
+            "commands": [
+                "workbench.action.findInFiles"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "P"
+            ],
+            "commands": [
+                "workbench.action.replaceInFiles"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "/"
+            ],
+            "commands": [
+                "actions.find"
+            ],
+        },
+        {
+            "before": [
+                "<leader>",
+                "?"
+            ],
+            "commands": [
+                "editor.action.startFindReplaceAction"
+            ],
+        },
+    ],
+    "vscode-neovim.neovimPath": "/usr/bin/ vim",
+    "vscode-neovim.neovimInitPath": "~/.config/nvim/init.vim",
+    "keyboard.dispatch": "keyCode",
+    "editor.minimap.enabled": false,
+    "files.associations": {
+        "*.rsp": "json",
+        "*.req": "json"
+    },
+    "vim.autoSwitchInputMethod.obtainIMCmd": "/usr/bin/fcitx-remote",
+    "vim.autoSwitchInputMethod.switchIMCmd": "/usr/bin/fcitx-remote -t {im}",
+    "vim.autoSwitchInputMethod.defaultIM": "1",
+    "vim.autoSwitchInputMethod.enable": true,
+    "editor.cursorBlinking": "solid",
+    "vim.sneak": true,
+    "vim.sneakReplacesF": true,
+    "vim.sneakUseIgnorecaseAndSmartcase": true,
+    "gitlens.advanced.telemetry.enabled": false,
+    "gitlens.codeLens.recentChange.enabled": false,
+    "gitlens.currentLine.enabled": false,
+    "vim.changeWordIncludesWhitespace": true,
+    "gitlens.codeLens.authors.enabled": false,
+    "gitlens.blame.avatars": false,
+    "gitlens.views.compare.avatars": false,
+    "gitlens.views.lineHistory.avatars": false,
+    "gitlens.views.search.avatars": false,
+    "gitlens.hovers.avatars": false,
+    "gitlens.views.fileHistory.avatars": false,
+    "gitlens.views.repositories.avatars": false,
+    "vim.highlightedyank.enable": true,
+}

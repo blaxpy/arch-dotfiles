@@ -1,8 +1,8 @@
-let mapleader = ','
-noremap \ ,
+let mapleader = ' '
+" noremap \ ,
 
 " Reread the configuration file
-noremap \r :source ~/.config/nvim/init.vim<cr>
+noremap \` :source ~/.config/nvim/init.vim<cr>
 
 " https://github.com/junegunn/vim-plug
 " Automatic installation
@@ -21,6 +21,7 @@ Plug 'https://github.com/tpope/vim-sensible'
 Plug 'https://github.com/scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 " DEPENDENCY: https://github.com/scrooloose/nerdtree
 Plug 'https://github.com/Xuyuanp/nerdtree-git-plugin', {'on': 'NERDTreeToggle'}
+Plug 'https://github.com/junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'https://github.com/junegunn/fzf.vim'
 
 " Visual
@@ -45,12 +46,15 @@ Plug 'https://github.com/tpope/vim-abolish'
 " USAGE: http://vimcasts.org/episodes/aligning-text-with-tabular-vim/
 Plug 'https://github.com/godlygeek/tabular'
 Plug 'https://github.com/vim-scripts/ReplaceWithRegister'
-Plug 'https://github.com/vim-scripts/argtextobj.vim'
+Plug 'https://github.com/wellle/targets.vim'
+" SUBSTITUTED BY: targets.vim
+" Plug 'https://github.com/vim-scripts/argtextobj.vim'
 Plug 'https://github.com/kana/vim-textobj-user'
 " DEPENDENCY: vim-textobj-user
 Plug 'https://github.com/kana/vim-textobj-entire'
 
 " Navigation
+Plug 'https://github.com/justinmk/vim-sneak'
 " DEPENDENCY: https://github.com/tpope/vim-repeat
 Plug 'https://github.com/easymotion/vim-easymotion'
 
@@ -118,16 +122,21 @@ set nojoinspaces
 " Expansion of the active file directory
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 " edit a file in a new buffer
-nmap <leader><leader>ew :e %%
+nmap \ew :e %%
 " edit a file in a new tab
-nmap <leader><leader>et :tabe %%
+nmap \et :tabe %%
 " edit a file in a horizontal split
-nmap <leader><leader>es :sp %%
+nmap \es :sp %%
 " edit a file in a vertical split
-nmap <leader><leader>ev :vsp %%
+nmap \ev :vsp %%
 
 " Yank from cursor to end of line like 'C' and 'D'
 nnoremap Y y$
+
+" Use <C-/> to clear the highlighting of :set hlsearch.
+" if maparg('<C-/>', 'n') ==# ''
+"     nnoremap <silent> <C-/> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
+" endif
 
 " Folding
 " Open all folds by default
@@ -190,17 +199,35 @@ let g:airline_powerline_fonts = 1
 " INDENTLINE
 let g:indentLine_char = '⎸'
 
+
+" VIM-MULTIPLE-CURSORS
+let g:multi_cursor_use_default_mapping=0
+let g:multi_cursor_start_word_key      = '<A-n>'
+" let g:multi_cursor_select_all_word_key = '<A-n>'
+let g:multi_cursor_start_key           = 'g<A-n>'
+" let g:multi_cursor_select_all_key      = 'g<A-n>'
+let g:multi_cursor_next_key            = '<A-n>'
+let g:multi_cursor_prev_key            = '<A-p>'
+let g:multi_cursor_skip_key            = '<A-x>'
+let g:multi_cursor_quit_key            = '<Esc>'
+
+" VIM-SNEAK
+map f <Plug>Sneak_f
+map F <Plug>Sneak_F
+map t <Plug>Sneak_t
+map T <Plug>Sneak_T
+
 " VIM-EASYMOTION
-map <leader> <Plug>(easymotion-prefix)
+" map <leader> <Plug>(easymotion-prefix)
 
 " NERDTREE
-nnoremap <space>n :NERDTreeToggle<CR>
+nnoremap <leader>n :NERDTreeToggle<CR>
 
 " FZF
-nnoremap <space>f :Files<cr>
-nnoremap <space>p :Lines<cr>
-nnoremap <space>e :Buffers<cr>
-nnoremap <space>s :Tags<cr>
+nnoremap <leader>f :Files<cr>
+nnoremap <leader>p :Lines<cr>
+nnoremap <leader>e :Buffers<cr>
+nnoremap <leader>s :Tags<cr>
 
 " SYNTASTIC
 set statusline+=%#warningmsg#
@@ -258,7 +285,7 @@ let g:gitgutter_max_signs = 1000
 " VIM-ISORT
 let g:vim_isort_config_overrides = { 'multi_line_output': 3,'include_trailing_comma': 1, 'force_grid_wrap': 0, 'use_parentheses': 1, 'line_length': 120}
 let g:vim_isort_python_version = 'python3'
-noremap <leader>i :Isort<CR>
+noremap \i :Isort<CR>
 
 " VIM-AUTOFORMAT
 " Enable debug mode
@@ -287,4 +314,4 @@ let g:formatdef_jsbeautify_html = '"html-beautify --indent-size=2 -"'
 let g:formatters_css = ['jsbeautify_css']
 let g:formatdef_jsbeautify_css = '"css-beautify --indent-size=2 -"'
 
-noremap <leader>o :Autoformat<CR>
+noremap \o :Autoformat<CR>

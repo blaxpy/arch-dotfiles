@@ -1,61 +1,18 @@
-set clipboard=unnamedplus
-set incsearch
-set hlsearch
-set ignorecase
-set smartcase
-set showmode
-
-" Changing the leader key before loading plugins!
-let mapleader = ' '
-" noremap \ ,
-
-" IdeaVimExtension
-" set keep-english-in-normal
-set keep-english-in-normal-and-restore-in-insert
-
-" Easymotion
-" nmap <leader><leader> <Plug>(easymotion-prefix)
-" vmap <leader><leader> <Plug>(easymotion-prefix)
-
-" IdeaVim specific
-set clipboard+=ideaput
-" https://github.com/JetBrains/ideavim/wiki/%60ideajoin%60-examples
-set ideajoin
-
-" Emulated Vim plugins
-set surround
-set commentary
-set multiple-cursors
-set easymotion
-set ReplaceWithRegister
-set argtextobj
-set textobj-entire
-
-" Reread the configuration file
-noremap \` :source ~/.ideavimrc<cr>
-
 " Yank from cursor to end of line like 'C' and 'D'
 nnoremap Y y$
 
 " Clear the highlighting of search matches
-nnoremap <c-/> :nohlsearch<cr>
+nnoremap <c-l> :nohlsearch<cr>
 
-" Live templates
-inoremap <c-i> <c-o>:action InsertLiveTemplate<cr>
-
-" Navigation
-" Built-in jumping to previously visited locations works better
-nnoremap <c-o> :action Back<cr>
-nnoremap <c-i> :action Forward<cr>
-
-" TOP ROW
+" Top row
 nnoremap <leader>q :action QuickJavaDoc<cr>
 nnoremap <leader>w :action RecentChangedFiles<cr>
 nnoremap <leader>e :action RecentFiles<cr>
 nnoremap <leader>E :action RecentLocations<cr>
-nnoremap <leader>r :action RenameElement<cr>
 nnoremap <leader>t :action GotoTest<cr>
 nnoremap <leader>T :action GotoRelated<cr>
+nnoremap <leader>y :action ShowUmlDiagramPopup<cr>
+nnoremap <leader>Y :action ShowUmlDiagram<cr>
 nnoremap <leader>u :action ShowUsages<cr>
 nnoremap <leader>U :action FindUsages<cr>
 nnoremap <leader>i :action GotoImplementation<cr>
@@ -67,20 +24,22 @@ vnoremap <leader>p :action FindInPath<cr>
 nnoremap <leader>P :action ReplaceInPath<cr>
 vnoremap <leader>P :action ReplaceInPath<cr>
 
-nnoremap \r :action Refactorings.QuickListPopupAction<cr>
-nnoremap \y :action ShowUmlDiagramPopup<cr>
-nnoremap \Y :action ShowUmlDiagram<cr>
-nnoremap \i :action OptimizeImports<cr>
-nnoremap \o :action Tool_External Tools_Black<cr>
-nnoremap \O :action ReformatCode<cr>
-vnoremap \O :action ReformatCode<cr>
+nnoremap <leader>i :action OptimizeImports<cr>
+nnoremap <leader>o :action Tool_External Tools_Black<cr>
+nnoremap <leader>O :action ReformatCode<cr>
+vnoremap <leader>O :action ReformatCode<cr>
 
-" MIDDLE ROW
+nnoremap \w :action SurroundWith<cr>
+vnoremap \w :action SurroundWith<cr>
+nnoremap \r :action Run<cr>
+nnoremap \R :action ChooseRunConfiguration<cr>
+nnoremap \c :action CMake.BuildMenu<cr>
+nnoremap \t :action Refactorings.QuickListPopupAction<cr>
+
+" Middle row
 nnoremap <leader>a :action GotoAction<cr>
 nnoremap <leader>s :action GotoSymbol<cr>
 vnoremap <leader>s :action GotoSymbol<cr>
-nnoremap <leader>d :action Compare.SameVersion<cr>
-" vnoremap <leader>d :action Compare.Selected<cr>
 nnoremap <leader>f :action GotoFile<cr>
 vnoremap <leader>f :action GotoFile<cr>
 nnoremap <leader>g :action Annotate<cr>
@@ -89,40 +48,27 @@ nnoremap <leader>h :action TypeHierarchy<cr>
 nnoremap <leader>j :action ActivateStructureToolWindow<cr>
 nnoremap <leader>J :action FileStructurePopup<cr>
 
-nnoremap \s :action SurroundWith<cr>
-vnoremap \s :action SurroundWith<cr>
-nnoremap \f :action Run<cr>
-nnoremap \F :action ChooseRunConfiguration<cr>
+nnoremap \s :action Stop<cr>
 nnoremap \d :action Debug<cr>
 nnoremap \D :action ChooseDebugConfiguration<cr>
 nnoremap \g :action Vcs.QuickListPopupAction<cr>
-nnoremap \h :action Stop<cr>
 
-" Debug
-" nnoremap \j :action StepOver<cr>
-" nnoremap \k :action StepInto<cr>
-" step into my code
-" nnoremap \l :action ForceStepInto<cr>
-" nnoremap \; :action StepOut<cr>
-
-" BOTTOM ROW
+" Bottom row
 nnoremap <leader>z :action CopyPaths<cr>
 nnoremap <leader>x :action CopyReference<cr>
 nnoremap <leader>c :action GotoClass<cr>
 vnoremap <leader>c :action GotoClass<cr>
-nnoremap <leader>b :action ToggleLineBreakpoint<cr>
 nnoremap <leader>n :action ActivateProjectToolWindow<cr>
-nnoremap <leader>m :action ToggleBookmark<cr>
-nnoremap <leader>M :action ShowBookmarks<cr>
+nnoremap <leader>m :action ShowNavBar<cr>
 nnoremap <leader>/ :action Find<cr>
 vnoremap <leader>/ :action Find<cr>
 nnoremap <leader>? :action Replace<cr>
 vnoremap <leader>? :action Replace<cr>
 
-nnoremap \c :action Resume<cr>
-nnoremap \b :action ViewBreakpoints<cr>
+nnoremap \b :action ToggleLineBreakpoint<cr>
+nnoremap \B :action ViewBreakpoints<cr>
 
-" UNIMPAIRED
+" Unimpaired
 nnoremap [<space> O<esc>j
 nnoremap ]<space> o<esc>k
 nnoremap [e :action MoveLineUp<cr>
@@ -135,9 +81,3 @@ nnoremap ]l :action GotoNextError<cr>
 nnoremap [l :action GotoPreviousError<cr>
 vnoremap [u :action osmedile.intellij.stringmanip.URLEncodeAction<cr>
 vnoremap ]u :action osmedile.intellij.stringmanip.URLDecodeAction<cr>
-
-" Smart selection (not working)
-" vnoremap + :action SmartSelect<cr>
-" nnoremap + :action SmartSelect<cr>
-" vnoremap - :action SmartUnSelect<cr>
-" nnoremap - :action SmartUnSelect<cr>

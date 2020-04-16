@@ -64,14 +64,15 @@ export PROJECT_HOME="${HOME}/PycharmProjects"
 # DISABLE_VENV_CD=1
 
 plugins=(
-    common-aliases
     alias-finder
+    common-aliases
 
     vi-mode
 
     fzf
     fd
     ripgrep
+    ubuntu
 
     git
 
