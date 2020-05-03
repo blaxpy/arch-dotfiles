@@ -133,11 +133,6 @@ nmap \ev :vsp %%
 " Yank from cursor to end of line like 'C' and 'D'
 nnoremap Y y$
 
-" Use <C-/> to clear the highlighting of :set hlsearch.
-" if maparg('<C-/>', 'n') ==# ''
-"     nnoremap <silent> <C-/> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
-" endif
-
 " Folding
 " Open all folds by default
 " set foldlevel=99

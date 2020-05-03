@@ -38,7 +38,7 @@ noremap \` :source ~/.ideavimrc<cr>
 nnoremap Y y$
 
 " Clear the highlighting of search matches
-nnoremap <c-/> :nohlsearch<cr>
+nnoremap <c-l> :nohlsearch<cr>
 
 " Live templates
 inoremap <c-i> <c-o>:action InsertLiveTemplate<cr>
@@ -102,7 +102,7 @@ nnoremap \h :action Stop<cr>
 " nnoremap \j :action StepOver<cr>
 " nnoremap \k :action StepInto<cr>
 " step into my code
-" nnoremap \l :action ForceStepInto<cr>
+" nnoremap \m :action ForceStepInto<cr>
 " nnoremap \; :action StepOut<cr>
 
 " BOTTOM ROW

@@ -13,7 +13,7 @@
     "vim.normalModeKeyBindingsNonRecursive": [
         {
             "before": [
-                "<C-/>"
+                "<C-l>"
             ],
             "commands": [
                 ":nohl"
