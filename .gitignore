@@ -30,6 +30,12 @@
 !/.vimrc
 !/.tmux.conf.local
 
+# vifm
+!/.vifm/
+/.vifm/*/
+/.vifm/*
+!/.vifm/vifmrc
+
 # config directory
 !/.config/
 /.config/*/

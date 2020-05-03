@@ -41,6 +41,7 @@
           - htop
           - virtualenvwrapper
           - profile-sync-daemon
+          - vifm
 
           - fonts-powerline
         update_cache: true
