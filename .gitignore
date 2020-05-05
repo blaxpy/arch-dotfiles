@@ -17,6 +17,11 @@
 # nautilus templates
 !Templates/
 
+# backup
+!/backup.sh
+!/backup_include
+!/backup_exclude
+
 # config files
 !/.profile
 !/.pam_environment

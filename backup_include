@@ -1,0 +1,3 @@
+# Include mount directories without their contents
+# Contents are excluded with '/mnt/**' rule in backup_exclude file
+/mnt/*/
