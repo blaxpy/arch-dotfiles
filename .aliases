@@ -14,5 +14,5 @@ alias alert='notify-send --urgency=low -i terminal Finished'
 
 # fd
 # Unalias aliases from 'common-aliases' oh-my-zsh plugin
-unalias fd
+alias fd=fdfind
 unalias ff
