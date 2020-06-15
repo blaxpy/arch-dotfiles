@@ -46,6 +46,15 @@
 /.config/*/
 /.config/*
 
+# startup applications
+!/.config/autostart/
+
+# fcitx
+!/.config/fcitx/
+/.config/fcitx/*
+!/.config/fcitx/config
+!/.config/fcitx/addon/
+
 # profile-sync-daemon
 !/.config/psd
 /.config/psd/*
