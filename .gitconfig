@@ -60,3 +60,5 @@
     insteadOf = https://github.com/
 [push]
     default = current
+[pull]
+	ff = only
