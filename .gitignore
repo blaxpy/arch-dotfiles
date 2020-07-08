@@ -47,7 +47,7 @@
 /.config/*
 
 # startup applications
-!/.config/autostart/
+# !/.config/autostart/
 
 # fcitx
 !/.config/fcitx/
