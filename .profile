@@ -45,3 +45,5 @@ fi
 
 export LANG=en_US.UTF-8
 export EDITOR='nvim'
+
+ln --symbolic "$HOME/keepassxc" "$HOME/.cache"
