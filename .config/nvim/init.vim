@@ -48,7 +48,6 @@ Plug 'https://github.com/godlygeek/tabular'
 Plug 'https://github.com/vim-scripts/ReplaceWithRegister'
 Plug 'https://github.com/wellle/targets.vim'
 " SUBSTITUTED BY: targets.vim
-" Plug 'https://github.com/vim-scripts/argtextobj.vim'
 Plug 'https://github.com/kana/vim-textobj-user'
 " DEPENDENCY: vim-textobj-user
 Plug 'https://github.com/kana/vim-textobj-entire'

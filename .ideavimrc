@@ -111,6 +111,7 @@ nnoremap <leader>x :action CopyReference<cr>
 nnoremap <leader>c :action GotoClass<cr>
 vnoremap <leader>c :action GotoClass<cr>
 nnoremap <leader>b :action ToggleLineBreakpoint<cr>
+nnoremap <leader>B :action ViewBreakpoints<cr>
 nnoremap <leader>n :action ActivateProjectToolWindow<cr>
 nnoremap <leader>m :action ToggleBookmark<cr>
 nnoremap <leader>M :action ShowBookmarks<cr>
@@ -120,7 +121,6 @@ nnoremap <leader>? :action Replace<cr>
 vnoremap <leader>? :action Replace<cr>
 
 nnoremap \c :action Resume<cr>
-nnoremap \b :action ViewBreakpoints<cr>
 
 " UNIMPAIRED
 nnoremap [<space> O<esc>j

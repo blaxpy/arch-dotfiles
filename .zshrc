@@ -1,13 +1,9 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
-
-# Path to your oh-my-zsh installation.
+# https://github.com/ohmyzsh/ohmyzsh/blob/master/templates/zshrc.zsh-template
 export ZSH="${HOME}/.oh-my-zsh"
+DISABLE_UPDATE_PROMPT="true"
+HIST_STAMPS="yyyy-mm-dd"
 
 # Powerline
-# POWERLEVEL9K_SHORTEN_STRATEGY="truncate_to_first_and_last"
-# POWERLEVEL9K_SHORTEN_DIR_LENGTH=2
-
 # https://github.com/Powerlevel9k/powerlevel9k/wiki/Stylizing-Your-Prompt
 # Show all colors in a terminal:
 # for code ({000..255}) print -P -- "$code: %F{$code}This is how your text would look like%f"
@@ -40,53 +36,62 @@ POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
 )
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()
 
+# https://github.com/romkatv/powerlevel10k
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-# Uncomment the following line to automatically update without prompting.
-DISABLE_UPDATE_PROMPT="true"
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-HIST_STAMPS="yyyy-mm-dd"
+# SSH-Agent
+# https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/ssh-agent
+zstyle :omz:plugins:ssh-agent agent-forwarding on
 
 # FZF
+# https://github.com/junegunn/fzf
 export FZF_DEFAULT_OPTS="--layout=reverse --height 20%"
 
-# Virtualenvwrapper
+# VirtualenvWrapper
+# https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/virtualenvwrapper
+# https://virtualenvwrapper.readthedocs.io/en/latest/install.html#shell-startup-file
 export WORKON_HOME="${HOME}/.virtualenvs"
 export PROJECT_HOME="${HOME}/PycharmProjects"
-# DISABLE_VENV_CD=1
 
+# https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins
 plugins=(
-    alias-finder
-    common-aliases
-
+    # Editing
     vi-mode
 
+    # Aliases
+    alias-finder
+    common-aliases
+    extract
+
+    # Distributions
+    archlinux
+    debian
+
+    # Daemons
+    ssh-agent
+    gpg-agent
+
+    # Tools
+    rsync
+    tmux
+    ansible
     fzf
     fd
     ripgrep
-    ubuntu
+    httpie
 
+    # Development
     git
-
+    gitignore
     pip
-    # virtualenvwrapper
-
+    virtualenvwrapper
     docker
     docker-compose
-
-    ansible
-
     kubectl
     helm
 
-    # tmux
+    # Misc
+    colored-man-pages
 )
 
 source "${ZSH}/oh-my-zsh.sh"
@@ -153,6 +158,22 @@ if (( $+functions[zle-keymap-select] )); then
     export KEYTIMEOUT=1
 fi
 
+# Git
+# Prevent git from always using pager
+unset LESS
+
+# Docker
+function docker-backup () {
+    DIR=`pwd`
+    docker run --rm -v $1:/volume -v $DIR:/backup alpine sh -c "cd /volume && tar -czf /backup/$1.tar.gz ."
+    ls -lh $DIR/$1.tar.gz
+}
+
+function docker-restore () {
+    DIR=`pwd`
+    docker run --rm -v $1:/volume -v $DIR:/backup alpine sh -c "cd /volume && find . -maxdepth 1 -not -path . -exec rm -rf {} \; && tar -xf /backup/$1.tar.gz && ls -lah"
+}
+
 # Manually read '.profile' when connecting with ssh.
 if [[ -n "${SSH_CLIENT}" ]] || [[ -n "${SSH_CONNECTION}" ]] || [[ -n "${SSH_TTY}" ]]; then
     . "${HOME}/.profile"
@@ -161,14 +182,6 @@ fi
 if [[ -f "${HOME}/.aliases" ]]; then
     . "${HOME}/.aliases"
 fi
-
-# Thefuck
-eval "$(thefuck --alias f)"
-# export THEFUCK_REQUIRE_CONFIRMATION="false"
-
-# Prevent Git from always using pager
-# https://stackoverflow.com/a/55711342
-unset LESS
 
 # Autosuggestions
 # source "${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
@@ -180,13 +193,3 @@ unset LESS
 # `source` command must be at the end of the file!
 # source "${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
-function docker-backup () {
-    DIR=`pwd`
-    docker run --rm -v $1:/volume -v $DIR:/backup alpine sh -c "cd /volume && tar -czf /backup/$1.tar.gz ."
-    ls -lh $DIR/$1.tar.gz
-}
-
-function docker-restore () {
-    DIR=`pwd`
-    docker run --rm -v $1:/volume -v $DIR:/backup alpine sh -c "cd /volume && find . -maxdepth 1 -not -path . -exec rm -rf {} \; && tar -xf /backup/$1.tar.gz && ls -lah"
-}
