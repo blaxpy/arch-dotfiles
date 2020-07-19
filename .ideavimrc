@@ -23,13 +23,19 @@ set clipboard+=ideaput
 set ideajoin
 
 " Emulated Vim plugins
-set surround
 set commentary
-set multiple-cursors
-set easymotion
+set surround
+
 set ReplaceWithRegister
+set vim-exchange
+
 set argtextobj
 set textobj-entire
+
+set multiple-cursors
+
+set easymotion
+
 
 " Reread the configuration file
 noremap \` :source ~/.ideavimrc<cr>
@@ -97,13 +103,6 @@ nnoremap \d :action Debug<cr>
 nnoremap \D :action ChooseDebugConfiguration<cr>
 nnoremap \g :action Vcs.QuickListPopupAction<cr>
 nnoremap \h :action Stop<cr>
-
-" Debug
-" nnoremap \j :action StepOver<cr>
-" nnoremap \k :action StepInto<cr>
-" step into my code
-" nnoremap \m :action ForceStepInto<cr>
-" nnoremap \; :action StepOut<cr>
 
 " BOTTOM ROW
 nnoremap <leader>z :action CopyPaths<cr>
