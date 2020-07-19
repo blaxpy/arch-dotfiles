@@ -26,9 +26,7 @@
 !/.profile
 !/.pam_environment
 !/.zshrc
-!/.bashrc
 !/.aliases
-!/.bash_aliases
 !/.inputrc
 !/.gitconfig
 !/.ideavimrc
