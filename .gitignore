@@ -26,12 +26,18 @@
 !/.profile
 !/.pam_environment
 !/.zshrc
-!/.aliases
 !/.inputrc
 !/.gitconfig
 !/.ideavimrc
 !/.vimrc
 !/.tmux.conf.local
+
+# zsh
+!/.zsh/
+/.zsh/*/
+/.zsh/*
+!/.zsh/aliases.sh
+!/.zsh/functions.sh
 
 # vifm
 !/.vifm/
@@ -43,9 +49,6 @@
 !/.config/
 /.config/*/
 /.config/*
-
-# startup applications
-# !/.config/autostart/
 
 # fcitx
 !/.config/fcitx/

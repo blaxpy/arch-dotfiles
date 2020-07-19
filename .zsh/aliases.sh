@@ -7,6 +7,10 @@ alias afl='alias-finder --longer'
 alias vi=nvim
 alias vim=nvim
 
+# Git
+# Prevent git from always using pager.
+unset LESS
+
 # Thefuck
 # https://github.com/nvbn/thefuck
 eval "$(thefuck --alias f)"
