@@ -40,30 +40,26 @@
 
 # vifm
 !/.vifm/
-/.vifm/*/
-/.vifm/*
-!/.vifm/vifmrc
 
 # config directory
 !/.config/
 /.config/*/
 /.config/*
 
+# kitty
+!/.config/kitty/
+
+# neovim
+!/.config/nvim/
+
+# profile-sync-daemon
+!/.config/psd
+
 # fcitx
 !/.config/fcitx/
 /.config/fcitx/*
 !/.config/fcitx/config
 !/.config/fcitx/addon/
-
-# profile-sync-daemon
-!/.config/psd
-/.config/psd/*
-!/.config/psd/psd.conf
-
-# neovim
-!/.config/nvim/
-/.config/nvim/*
-!/.config/nvim/init.vim
 
 # vscode
 !/.config/Code/
