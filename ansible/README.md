@@ -1,7 +1,5 @@
 ## Usage
 
-```shell script
-ansible-playbook --ask-become-pass --extra-vars "user_name=${USER}" setup.yml
 ```
-
-
+ansible-playbook playbook.yml --ask-become-pass
+```

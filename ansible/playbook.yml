@@ -1,90 +1,83 @@
 - hosts: all
   become: true
-
-  vars:
-    _user_name: "{{ user_name | default('denis') }}"
+  become_user: "{{ lookup('env','USER') }}"
 
   tasks:
-    - name: Create directories
-      file:
-        path: "{{ item }}"
-        state: directory
-      with_items:
-        - "/home/{{ _user_name }}/.zsh"
-      become_user: "{{ _user_name }}"
-
-    - name: Set timezone to Europe/Moscow
-      timezone:
-        name: Europe/Moscow
-
-    - name: Disable boot splash screen
-      replace:
-        path: /etc/default/grub
-        regexp: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"'
-        replace: 'GRUB_CMDLINE_LINUX_DEFAULT=""'
+    # DEBUG
+    # - debug: msg="HOME={{ lookup('env','HOME') }}."
+    # - name: Create directories
+    #   file:
+    #     path: "{{ lookup('env','HOME') }}/test_dir"
+    #     state: directory
+    # - meta: end_play
 
     - name: Upgrade distribution
       apt:
         upgrade: dist
         update_cache: true
         cache_valid_time: 3600
+      become_user: root
 
     - name: Install apt packages
       apt:
         pkg:
-          # Mandatory
+          # Base
           - apt-transport-https
           - ca-certificates
           - curl
           - gnupg-agent
           - software-properties-common
+
           # Package managers
           - flatpak
           - gnome-software-plugin-flatpak
-          # Services
-          - fcitx
-          - openvpn
+
+          # Daemons
           - profile-sync-daemon
+          - openvpn
+
+          # Shell
           - zsh
-          # Misc
           - fonts-powerline
-          # Programs
-          - copyq
-          - dconf-editor
-          ### https://www.dropbox.com/install-linux
-          - fd-find
-          - flameshot
-          - fzf
-          - goldendict
-          - gnome-shell-pomodoro
-          - htop
+
+          # Tools
+          # https://www.dropbox.com/install-linux
+          # https://slack.com/intl/en-ru/downloads/linux
           - neovim
-          - okular
-          - ripgrep
+          - kitty
+
           - thefuck
-          - tree
-          - wireshark
-          - xournal
-          ### https://slack.com/intl/en-ru/downloads/linux
-          - stacer
+          - fzf
+          - fd-find
+          - ripgrep
+          - httpie
+
+          - htop
           - vifm
-          - vlc
+
+          - tree
           - xclip
-          # Python
-          - python3-dev
-          - python3-pip
-          - virtualenvwrapper
-          # Gnome system-monitor extension dependencies.
-          # https://github.com/paradoxxxzero/gnome-shell-system-monitor-applet
-          - gir1.2-gtop-2.0
-          - gir1.2-nm-1.0
-          - gir1.2-clutter-1.0
+
+          - copyq
+          - flameshot
+
+          - goldendict
+          - okular
+          - xournal
+
+          - vlc
           # VLC pause click plugin dependencies.
           # https://github.com/nurupo/vlc-pause-click-plugin#debian
           - libvlccore-dev
           - libvlc-dev
+
+          # Development
+          - python3-dev
+          - python3-pip
+          - virtualenvwrapper
         update_cache: true
         cache_valid_time: 3600
+      become_user: root
 
     - name: Add GPG keys
       apt_key:
@@ -128,9 +121,7 @@
           - docker-ce
           - docker-ce-cli
           - containerd.io
-          # - kubectl
-
-    # - meta: end_play
+      become_user: root
 
     # Installing gnome-software-plugin-flatpak will install a deb version of Software.
     # https://flatpak.org/setup/Ubuntu/
@@ -142,10 +133,6 @@
     - name: Install snap packages
       snap:
         name:
-          # - authy  # uncomment when beta is finished
-          - bitwarden
-          - postman
-          - superproductivity
           - telegram-desktop
 
     - name: Install snap packages with '--classic' option
@@ -156,7 +143,7 @@
           # - helm
           - hub
           # - kubectl
-          - skype  # ? fcitx
+          - skype
 
     - name: Add flathub flatpak repository remote
       flatpak_remote:
@@ -169,7 +156,7 @@
         name: "{{ item }}"
         state: present
       with_items:
-        - com.calibre_ebook.calibre  # no fcitx
+        - com.calibre_ebook.calibre
         - com.github.tchx84.Flatseal
         - net.ankiweb.Anki
         - org.qbittorrent.qBittorrent
@@ -184,47 +171,37 @@
 
     - name: Install oh-my-zsh
       git:
-        repo: https://github.com/robbyrussell/oh-my-zsh.git
-        dest: "/home/{{ _user_name }}/.oh-my-zsh"
+        repo: https://github.com/robbyrussell/oh-my-zsh
+        dest: "{{ lookup('env','HOME') }}/.oh-my-zsh"
         version: master
-      become_user: "{{ _user_name }}"
       register: git_result
       changed_when: "git_result.after|default('after') != git_result.before|default('before')"
 
     - name: Install powerlevel10k theme
       git:
-        repo: https://github.com/romkatv/powerlevel10k.git
-        dest: "/home/{{ _user_name }}/.oh-my-zsh/themes/powerlevel10k"
+        repo: https://github.com/romkatv/powerlevel10k
+        dest: "{{ lookup('env','HOME') }}/.oh-my-zsh/themes/"
         version: master
         depth: 1
-      become_user: "{{ _user_name }}"
       register: git_result
       changed_when: "git_result.after|default('after') != git_result.before|default('before')"
 
-    - name: Install zsh-autosuggestions
+    - name: Install zsh plugins
       git:
-        repo: https://github.com/zsh-users/zsh-autosuggestions
-        dest: "/home/{{ _user_name }}/.zsh/zsh-autosuggestions"
+        repo: "{{ item }}"
+        dest: "{{ lookup('env','HOME') }}/.zsh/"
         version: master
-      become_user: "{{ _user_name }}"
-      register: git_result
-      changed_when: "git_result.after|default('after') != git_result.before|default('before')"
-
-    - name: Install zsh-syntax-highlighting
-      git:
-        repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
-        dest: "/home/{{ _user_name }}/.zsh/zsh-syntax-highlighting"
-        version: master
-      become_user: "{{ _user_name }}"
+      with_items:
+        - https://github.com/zsh-users/zsh-autosuggestions
+        - https://github.com/zsh-users/zsh-syntax-highlighting
       register: git_result
       changed_when: "git_result.after|default('after') != git_result.before|default('before')"
 
     - name: Install oh-my-tmux
       git:
-        repo: https://github.com/gpakosz/.tmux.git
-        dest: "/home/{{ _user_name }}/.tmux"
+        repo: https://github.com/gpakosz/.tmux
+        dest: "{{ lookup('env','HOME') }}"
         version: master
-      become_user: "{{ _user_name }}"
       register: git_result
       changed_when: "git_result.after|default('after') != git_result.before|default('before')"
 
@@ -234,10 +211,9 @@
     
     - name: Download vlc pause click plugin 
       git:
-        repo: https://github.com/nurupo/vlc-pause-click-plugin.git
-        dest: "/home/{{ _user_name }}/Downloads/vlc-pause-click-plugin"
+        repo: https://github.com/nurupo/vlc-pause-click-plugin
+        dest: "/tmp"
         version: 2.2.0
-      become_user: "{{ _user_name }}"
       when: not vlc_pause_click_plugin.stat.exists
       register: git_result
       changed_when: "git_result.after|default('after') != git_result.before|default('before')"
@@ -251,10 +227,20 @@
 
     - name: Configure user
       user:
-        name: "{{ _user_name }}"
+        name: "{{ lookup('env','USER') }}"
         shell: /usr/bin/zsh
         groups: docker
         append: true
+
+    - name: Set timezone to Europe/Moscow
+      timezone:
+        name: Europe/Moscow
+
+    - name: Disable boot splash screen
+      replace:
+        path: /etc/default/grub
+        regexp: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"'
+        replace: 'GRUB_CMDLINE_LINUX_DEFAULT=""'
 
   handlers:
     - name: update apt cache
@@ -264,7 +250,7 @@
     - name: install vlc pause click plugin
       command: "{{ item }}"
       args:
-        chdir: "/home/{{ _user_name }}/Downloads/vlc-pause-click-plugin"
+        chdir: "/tmp/vlc-pause-click-plugin"
       with_items:
         - make
         - make install
