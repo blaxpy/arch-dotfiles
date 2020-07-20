@@ -1,4 +1,4 @@
-let mapleader = ' '
+let mapleader=' '
 
 " Reread the configuration file
 noremap \` :source ~/.config/nvim/init.vim<cr>
@@ -17,10 +17,11 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'https://github.com/tpope/vim-sensible'
 
     " Visual
-    Plug 'https://github.com/rakr/vim-one'
+    Plug 'https://github.com/morhetz/gruvbox'
     Plug 'https://github.com/vim-airline/vim-airline'
     Plug 'https://github.com/Yggdroot/indentLine'
     Plug 'https://github.com/google/vim-searchindex'
+    Plug 'https://github.com/ap/vim-css-color'
     Plug 'https://github.com/plasticboy/vim-markdown'
 
     " Editing
@@ -64,8 +65,10 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'https://github.com/vim-syntastic/syntastic'
 
     " Snippets
-    Plug 'https://github.com/SirVer/ultisnips'
-    Plug 'https://github.com/honza/vim-snippets'
+    Plug 'https://github.com/Shougo/neosnippet.vim'
+    Plug 'https://github.com/Shougo/neosnippet-snippets'
+    " Plug 'https://github.com/SirVer/ultisnips'
+    " Plug 'https://github.com/honza/vim-snippets'
 
     " Git
     Plug 'https://github.com/airblade/vim-gitgutter'
@@ -78,14 +81,18 @@ call plug#end()
 set updatetime=100
 " Copy to a X11 "+ clipboard register
 set clipboard=unnamedplus
-" Number lines
-set number
-" Show partial command in status line
-set showcmd
 " Switch between modified buffers without bang
 set hidden
 " Insert one space after a '.', '?' and '!' with a join command.
 set nojoinspaces
+
+" Wildmenu
+" 'wildmenu' is enabled in 'vim-sensible' plugin.
+" Complete till longest common string and start 'wildmenu'.
+" If pressing TAB doesn't result in a longer string,
+" complete the next full match from wild menu.
+" After the last match the original string is used and then the first match again.
+set wildmode=longest:full,full
 
 " Search
 " Case-insensitive search
@@ -99,41 +106,31 @@ set expandtab
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
+autocmd FileType yaml setlocal tabstop=2 shiftwidth=2
 autocmd FileType html setlocal tabstop=2 shiftwidth=2
 autocmd FileType javascript setlocal tabstop=2 shiftwidth=2
 autocmd FileType typescript setlocal tabstop=2 shiftwidth=2
 
-" Wildmenu
-" 'wildmenu' is enabled in 'vim-sensible' plugin.
-" Complete till longest common string and start 'wildmenu'.
-" If pressing TAB doesn't result in a longer string,
-" complete the next full match from wild menu.
-" After the last match the original string is used and then the first match again.
-set wildmode=longest:full,full
-
 " Folding
-set foldlevelstart=99
+" Syntax highlighting items specify folds.
 set foldmethod=syntax
-let g:markdown_folding = 1
-let g:tex_fold_enabled = 1
-let g:vimsyn_folding = 'af'
-let g:xml_syntax_folding = 1
-let g:javaScript_fold = 1
-let g:sh_fold_enabled= 7
-let g:ruby_fold = 1
-let g:perl_fold = 1
-let g:perl_fold_blocks = 1
-let g:r_syntax_folding = 1
-let g:rust_fold = 1
-let g:php_folding = 1
+" Start editing with all folds open.
+set foldlevelstart=99
 
 " VISUAL
+" Number lines
+set number
+" Show partial command in status line
+set showcmd
 set termguicolors
 set background=light
-colorscheme one
-let g:airline_theme='one'
-let g:airline_powerline_fonts = 1
-let g:indentLine_char = '⎸'
+colorscheme gruvbox
+let g:airline_theme='gruvbox'
+let g:airline_powerline_fonts=1
+let g:indentLine_char='⎸'
+" Do not conceal characters (e.g. quotes in JSON file)
+let g:indentLine_concealcursor=''
+let g:indentLine_conceallevel=0
 
 " EASY-ALIGN
 " Start interactive EasyAlign in visual mode (e.g. vipga).
@@ -151,7 +148,19 @@ map t <Plug>Sneak_t
 map T <Plug>Sneak_T
 
 " DEOPLETE
-let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_at_startup=1
+" Tab completion
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ deoplete#manual_complete()
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+" Show snippets first.
+" call deoplete#custom#source('ultisnips', 'rank', 1000)
+" call deoplete#custom#source('ultisnips', 'matchers', ['matcher_fuzzy'])
 
 " NERDTREE
 nnoremap <leader>n :NERDTreeToggle<CR>
@@ -165,19 +174,19 @@ nnoremap <leader>e :Buffers<cr>
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+let g:syntastic_always_populate_loc_list=1
+let g:syntastic_auto_loc_list=1
+let g:syntastic_check_on_open=1
+let g:syntastic_check_on_wq=0
 
 " ULTISNIPS
-" let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<c-b>"
-let g:UltiSnipsJumpBackwardTrigger = "<c-z>"
+" let g:UltiSnipsExpandTrigger='<c-j>'
+" let g:UltiSnipsJumpForwardTrigger='<c-b>'
+" let g:UltiSnipsJumpBackwardTrigger='<c-z>'
 
 " VIM-GITGUTTER
 " Suppress the signs when a file has more than 1000 changes
-let g:gitgutter_max_signs = 1000
+let g:gitgutter_max_signs=1000
 
 " MAPPINGS
 " Expansion of the active file directory
