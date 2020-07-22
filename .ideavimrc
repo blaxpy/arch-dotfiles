@@ -9,10 +9,6 @@ set showmode
 let mapleader = ' '
 " noremap \ ,
 
-" IdeaVimExtension
-" set keep-english-in-normal
-set keep-english-in-normal-and-restore-in-insert
-
 " Easymotion
 " nmap <leader><leader> <Plug>(easymotion-prefix)
 " vmap <leader><leader> <Plug>(easymotion-prefix)
@@ -35,7 +31,6 @@ set textobj-entire
 set multiple-cursors
 
 set easymotion
-
 
 " Reread the configuration file
 noremap \` :source ~/.ideavimrc<cr>
