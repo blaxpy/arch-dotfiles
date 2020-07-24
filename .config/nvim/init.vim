@@ -17,8 +17,9 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'https://github.com/tpope/vim-sensible'
 
     " Visual
-    Plug 'https://github.com/morhetz/gruvbox'
+    Plug 'https://github.com/altercation/vim-colors-solarized'
     Plug 'https://github.com/vim-airline/vim-airline'
+    Plug 'https://github.com/vim-airline/vim-airline-themes'
     Plug 'https://github.com/Yggdroot/indentLine'
     Plug 'https://github.com/google/vim-searchindex'
     Plug 'https://github.com/ap/vim-css-color'
@@ -124,8 +125,10 @@ set number
 set showcmd
 set termguicolors
 set background=light
-colorscheme gruvbox
-let g:airline_theme='gruvbox'
+colorscheme solarized
+" https://github.com/airblade/vim-gitgutter#sign-column
+highlight SignColumn guibg=#fdf6e3
+let g:airline_theme='solarized'
 let g:airline_powerline_fonts=1
 let g:indentLine_char='⎸'
 " Do not conceal characters (e.g. quotes in JSON file)
@@ -189,16 +192,5 @@ let g:syntastic_check_on_wq=0
 let g:gitgutter_max_signs=1000
 
 " MAPPINGS
-" Expansion of the active file directory
-cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
-" edit a file in a new buffer
-nmap \ew :e %%
-" edit a file in a new tab
-nmap \et :tabe %%
-" edit a file in a horizontal split
-nmap \es :sp %%
-" edit a file in a vertical split
-nmap \ev :vsp %%
-
 " Yank from cursor to end of line like 'C' and 'D'
 nnoremap Y y$
