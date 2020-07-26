@@ -1,0 +1,137 @@
+# Find a keysym name interactively:
+#   xev -event keyboard
+# Display all keysym names: 
+#   xmodmap -pk | rg --only-matching '\(\w+\)' | sed 's/[()]//g' | sort | uniq
+
+# *** SXHKD ***
+# Reload configuration.
+super + Escape
+    pkill -USR1 --exact sxhkd
+
+# *** BSPWM ***
+# Quit/restart bspwm.
+super + shift + {q,r}
+    bspc {quit,wm --restart}
+
+# Close/kill window.
+super + {_,shift + }w
+    bspc node --{close,kill}
+
+# Alternate between the tiled and monocle layout.
+super + p
+    bspc desktop --layout next
+
+# NAVIGATION
+# Focus/swap the window in the given direction.
+super + {h,j,k,l}
+    bspc node --focus {west,south,north,east}
+# Focus the next/previous window in the current desktop
+super + {comma,period}
+	bspc node --focus {prev,next}.local
+# Focus the next/previous desktop in the current monitor.
+super + bracket{left,right}
+    bspc desktop --focus {prev,next}.local --follow
+# Focus the last window/desktop (grave is backtick).
+super + {Tab,grave}
+    bspc {node,desktop} --focus last
+# Focus the older or newer window in the focus history.
+super + {o,i}
+    bspc wm --record-history off; \
+    bspc node {older,newer} --focus; \
+    bspc wm --record-history on
+# Focus the given desktop.
+super + {1-9,0}
+    bspc desktop --focus '^{1-9,10}'
+
+# STATE AND FLAGS
+# Set the window state.
+super + {y,u}
+    bspc node --state {floating,tiled}
+    # bspc node --state {floating,tiled,pseudo_tiled,fullscreen}
+# Set the node flags.
+super + {m,Insert}
+    bspc node --flag {marked,hidden}
+# Cancel hidden flag for the focused desktop.
+super + Delete
+    bspc query --nodes --desktop \
+    | xargs -I ID bspc node ID --flag hidden=off
+# Cancel all flags, except hidden, for the focused desktop.
+super + BackSpace
+    bspc query --nodes --desktop \
+    | xargs -I ID bspc node ID \
+        --flag sticky=off \
+        --flag private=off \
+        --flag locked=off \
+        --flag marked=off
+
+# MOVE
+# Swap the current window in the given direction.
+super + alt + {h,j,k,l}
+    bspc node --swap {west,south,north,east}
+# Move the current window between desktops.
+super + alt + bracket{left,right}
+    bspc node --to-desktop {prev,next}.local --follow
+# Move the current window to the given desktop.
+super + alt + {1-9,0}
+    bspc node --to-desktop '^{1-9,10}' --follow
+# Circulate windows.
+super + alt + {_,shift +}c
+    bspc node @/ --circulate {forward,backward}
+# Move the current window to the preselected space.
+super + alt + p
+    bspc node --to-node last.!automatic.local
+# Swap the current window with the marked window.
+super + alt + m
+    bspc node --swap last.marked.local
+# Swap the current window with the biggest window.
+super + alt + b
+    bspc node --swap biggest.local
+# Move the current floating window.
+super + {Left,Down,Up,Right}
+    bspc node --move {-20 0,0 20,0 -20,20 0}
+
+# RESIZE
+# Expand a window by moving one of its side outward.
+super + ctrl + {h,j,k,l}
+    bspc node --resize {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+# Contract a window by moving one of its side inward.
+super + ctrl + alt + {h,j,k,l}
+    bspc node --resize {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+# PRESELECT
+# Preselect the direction.
+super + shift + {h,j,k,l}
+    bspc node --presel-dir {west,south,north,east}
+# Preselect the ratio.
+super + shift + {1-9}
+    bspc node --presel-ratio 0.{1-9}
+# Cancel the preselection for the focused desktop.
+super + shift + BackSpace
+    bspc query --nodes --desktop \
+    | xargs -I ID bspc node ID --presel-dir cancel
+
+# *** PROGRAMS ***
+# Program launcher.
+super + space
+    rofi -show run
+# Window switcher.
+super + e
+    rofi -show window
+# Terminal emulator.
+super + Return
+    kitty
+# File manager.
+super + f
+    kitty ranger
+# Browser.
+super + b
+    firefox
+# Show clipmenu.
+# super + v
+#     CM_LAUNCHER=rofi clipmenu \
+#         -location 1 \
+#         -m -3 \
+#         -no-show-icons \
+#         -theme-str '* \{ font: 10px; \}' \
+#         -theme-str 'listview \{ spacing: 0; \}' \
+#         -theme-str 'window \{ width: 20em; \}'

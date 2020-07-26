@@ -23,10 +23,9 @@
 !/backup_exclude
 
 # config files
+!/.xinitrc
 !/.profile
-!/.pam_environment
 !/.zshrc
-!/.inputrc
 !/.gitconfig
 !/.ideavimrc
 !/.tmux.conf.local
