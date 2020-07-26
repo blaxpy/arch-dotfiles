@@ -1,0 +1,56 @@
+# https://wiki.archlinux.org/index.php/Zathura
+# man zathurarc
+
+# CONFIGURATION
+font "jetbrains mono 13"
+set selection-clipboard clipboard
+# Gap in pixels between each rendered page.
+set page-padding 3
+
+# COLORS
+# Background color.
+set default-bg "#fdf6e3"
+# Bottom status bar.
+set statusbar-fg "#fdf6e3"
+set statusbar-bg "#93a1a1"
+# Bottom command bar.
+set inputbar-fg "#52676f"
+set inputbar-bg "#fdf6e3"
+# Completion menu above the command bar.
+set completion-fg "#52676f"
+set completion-bg "#ffbbff"
+# Table of contents.
+set index-fg "#52676f"
+set index-bg "#fdf6e3"
+# Do not know yet.
+set tabbar-fg "#52676f"
+set tabbar-bg "#fdf6e3"
+set notification-fg "#fdf6e3"
+set notification-bg "#93a1a1"
+
+# RECOLOR
+# Disable recoloring on startup.
+set recolor "false"
+# Keep original hue.
+set recolor-keephue "true"
+# Do not keep original image colors.
+set recolor-reverse-video "false"
+# Foreground color.
+set recolor-darkcolor "#000000"
+# Background color.
+set recolor-lightcolor "#fdf6e3"
+
+# MAPPINGS
+# Normal (default).
+map k navigate previous
+map <C-y> scroll up
+map j navigate next
+map <C-e> scroll down
+# Fullscreen.
+map [fullscreen] k navigate previous
+map [fullscreen] <C-y> scroll up
+map [fullscreen] j navigate next
+map [fullscreen] <C-e> scroll down
+# Table of contents.
+# Does not work.
+# map [index] / search

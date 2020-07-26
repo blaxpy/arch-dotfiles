@@ -38,28 +38,22 @@
 !/.zsh/aliases.sh
 !/.zsh/functions.sh
 
-# vifm
-!/.vifm/
-
 # config directory
 !/.config/
 /.config/*/
 /.config/*
 
-# kitty
 !/.config/kitty/
-
-# neovim
 !/.config/nvim/
+!/.config/psd/
+!/.config/vifm/
+!/.config/zathura/
 
-# profile-sync-daemon
-!/.config/psd
-
-# fcitx
-!/.config/fcitx/
-/.config/fcitx/*
-!/.config/fcitx/config
-!/.config/fcitx/addon/
+# window manager
+!/.config/bspwm/
+!/.config/sxhkd/
+!/.config/polybar/
+!/.config/rofi/
 
 # vscode
 !/.config/Code/
