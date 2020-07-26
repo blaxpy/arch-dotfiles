@@ -97,9 +97,6 @@ plugins=(
     docker-compose
     kubectl
     helm
-
-    # Misc
-    colored-man-pages
 )
 
 . "${ZSH}/oh-my-zsh.sh"
