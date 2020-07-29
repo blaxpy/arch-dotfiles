@@ -10,7 +10,6 @@
 
 # ssh
 !/.ssh/
-/.ssh/*/
 /.ssh/*
 !.ssh/config_example
 
@@ -32,14 +31,12 @@
 
 # zsh
 !/.zsh/
-/.zsh/*/
 /.zsh/*
 !/.zsh/aliases.sh
 !/.zsh/functions.sh
 
 # config directory
 !/.config/
-/.config/*/
 /.config/*
 
 !/.config/kitty/
@@ -53,6 +50,12 @@
 !/.config/sxhkd/
 !/.config/polybar/
 !/.config/rofi/
+
+# copyq
+!/.config/copyq/
+/.config/copyq/*
+!/.config/copyq/copyq.conf
+!/.config/copyq/copyq-commands.ini
 
 # vscode
 !/.config/Code/
