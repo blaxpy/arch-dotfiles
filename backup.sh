@@ -4,10 +4,10 @@ echo - Stopping Profile-sync-daemon
 systemctl --user stop psd
 
 echo - Removing Docker files
-docker system prune
+docker system prune --force
 
 echo - Mounting backup volume
-sudo mount /dev/data_vg/backup /mnt/backup/
+sudo mount /dev/sda1 /mnt/backup
 
 rsync_args=()
 if [[ -n "$1" ]]; then
@@ -17,15 +17,11 @@ fi
 
 echo
 echo ~ Backup started
-sudo rsync --archive --acls --xattrs --human-readable --delete --verbose --include-from=backup_include --exclude-from=backup_exclude "${rsync_args[@]}" / /mnt/backup/ \
-    | grep --extended-regexp --invert-match 'var/lib/docker/|usr/src/linux-headers-' > rsync.log
-
+sudo rsync --archive --human-readable --delete --include-from=backup_include --exclude-from=backup_exclude "${rsync_args[@]}" / /mnt/backup/
 echo ~ Backup finished
-tail -n 2 rsync.log
-echo
 
 echo - Unmounting backup volume
-sudo umount /dev/data_vg/backup
+sudo umount /mnt/backup
 
 echo - Starting Profile-sync-daemon
 systemctl --user start psd

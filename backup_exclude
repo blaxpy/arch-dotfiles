@@ -1,14 +1,9 @@
 /cdrom/*
 /dev/*
-/home/denis/.PyCharm*/system/python_stubs/*
-/home/denis/.PyCharm*/system/remote_sources/*
 /home/denis/.cache/*
+/home/denis/.config/Code/Cache*
+/home/denis/.config/Code/GPUCache*
 /home/denis/.config/Slack/Cache/*
-/home/denis/.kube/*cache/*
-/home/denis/.mozilla/firefox/**/cache/morgue/*
-/home/denis/.mozilla/firefox/**/datareporting/archived/*
-/home/denis/.mozilla/firefox/**/storage/default/*
-/home/denis/.npm/*
 /home/denis/Downloads/*
 /home/denis/Dropbox/*
 /lost+found/*
@@ -19,5 +14,8 @@
 /snap/*
 /sys/*
 /tmp/*
+/var/cache/*
+/var/lock/*
+/var/run/*
 /var/tmp/*
 __pycache__
