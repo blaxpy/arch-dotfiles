@@ -24,6 +24,7 @@
 # config files
 !/.xinitrc
 !/.profile
+!/.zprofile
 !/.zshrc
 !/.gitconfig
 !/.ideavimrc

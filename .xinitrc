@@ -29,3 +29,6 @@ setxkbmap -option "ctrl:swap_rwin_rctl"
 
 # Make Caps Lock generate Escape when pressed and released on it's own.
 xcape -e 'Super_L=Escape'
+
+# Start the window manager.
+# exec bspwm
