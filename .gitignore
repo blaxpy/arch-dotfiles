@@ -13,62 +13,51 @@
 /.ssh/*
 !.ssh/config_example
 
-# nautilus templates
-!Templates/
-
-# backup
-!/backup.sh
-!/backup_include
-!/backup_exclude
-
 # config files
-!/.xinitrc
-!/.profile
-!/.zprofile
-!/.zshrc
-!/.gitconfig
+!/.zshenv
 !/.ideavimrc
-!/.tmux.conf.local
-
-# zsh
-!/.zsh/
-/.zsh/*
-!/.zsh/aliases.sh
-!/.zsh/functions.sh
 
 # config directory
 !/.config/
 /.config/*
 
+!/.config/X11/
+!/.config/bspwm/
+!/.config/git/
 !/.config/kitty/
 !/.config/nvim/
+!/.config/polybar/
 !/.config/psd/
+!/.config/rofi/
+!/.config/sxhkd/
 !/.config/vifm/
 !/.config/zathura/
 
-# window manager
-!/.config/bspwm/
-!/.config/sxhkd/
-!/.config/polybar/
-!/.config/rofi/
+# zsh
+!/.config/zsh/
+/.config/zsh/*
+!/.config/zsh/.zprofile
+!/.config/zsh/.zshrc
+!/.config/zsh/aliases.sh
+!/.config/zsh/functions.sh
 
 # copyq
 !/.config/copyq/
 /.config/copyq/*
-!/.config/copyq/copyq.conf
 !/.config/copyq/copyq-commands.ini
+!/.config/copyq/copyq.conf
 
 # vscode
 !/.config/Code/
 /.config/Code/*
 !/.config/Code/User/
 /.config/Code/User/*
-!/.config/Code/User/settings.json
 !/.config/Code/User/keybindings.json
+!/.config/Code/User/settings.json
 
 # ipython
-!/.ipython/
-/.ipython/*
-!/.ipython/profile_default/
-/.ipython/profile_default/*
-!/.ipython/profile_default/ipython_config.py
+!/.config/jupyter/
+/.config/jupyter/*
+!/.config/jupyter/profile_default/
+/.config/jupyter/profile_default/*
+!/.config/jupyter/profile_default/ipython_config.py

@@ -1,256 +1,206 @@
 - hosts: all
   become: true
-  become_user: "{{ lookup('env','USER') }}"
+
+  vars:
+    user: denis
+    hostname: "{{ user }}-pc"
 
   tasks:
     # DEBUG
-    # - debug: msg="HOME={{ lookup('env','HOME') }}."
+    # - debug: msg="HOME={{ hostname.split('-')[-1] }}."
     # - name: Create directories
     #   file:
     #     path: "{{ lookup('env','HOME') }}/test_dir"
     #     state: directory
     # - meta: end_play
 
-    - name: Upgrade distribution
-      apt:
-        upgrade: dist
-        update_cache: true
-        cache_valid_time: 3600
-      become_user: root
+    - name: Upgrade packages
+      pacman:
+        update_cache: yes
+        upgrade: yes
 
-    - name: Install apt packages
-      apt:
-        pkg:
-          # Base
-          - apt-transport-https
-          - ca-certificates
-          - curl
-          - gnupg-agent
-          - software-properties-common
-
-          # Package managers
-          - flatpak
-          - gnome-software-plugin-flatpak
-
-          # Daemons
-          - profile-sync-daemon
-          - openvpn
-
-          # Shell
-          - zsh
-          - fonts-powerline
-
-          # Tools
-          # https://www.dropbox.com/install-linux
-          # https://slack.com/intl/en-ru/downloads/linux
-          - neovim
-          - kitty
-
-          - thefuck
-          - fzf
-          - fd-find
-          - ripgrep
-          - httpie
-
-          - htop
-          - vifm
-
-          - tree
-          - xclip
-
-          - copyq
-          - flameshot
-
-          - goldendict
-          - okular
-          - xournal
-
-          - vlc
-          # VLC pause click plugin dependencies.
-          # https://github.com/nurupo/vlc-pause-click-plugin#debian
-          - libvlccore-dev
-          - libvlc-dev
-
-          # Development
-          - python3-dev
-          - python3-pip
-          - virtualenvwrapper
-        update_cache: true
-        cache_valid_time: 3600
-      become_user: root
-
-    - name: Add GPG keys
-      apt_key:
-        url: "{{ item }}"
-      with_items:
-        # https://code.visualstudio.com/docs/setup/linux
-        - https://packages.microsoft.com/keys/microsoft.asc
-        # https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
-        - https://download.docker.com/linux/ubuntu/gpg
-        # https://kubernetes.io/docs/tasks/tools/install-kubectl/
-        - https://packages.cloud.google.com/apt/doc/apt-key.gpg
-      notify:
-        - update apt cache
-
-    - name: Add apt repositories
-      apt_repository:
-        repo: "{{ item }}"
-        update_cache: false
-      with_items:
-        # https://launchpad.net/~git-core/+archive/ubuntu/ppa
-        - ppa:git-core/ppa
-        # https://keepassxc.org/download/#linux
-        # https://launchpad.net/~phoerious/+archive/ubuntu/keepassxc
-        - ppa:phoerious/keepassxc
-        # https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
-        # codename = bionic = lsb_release -cs
-        - "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_facts['lsb']['codename'] }} stable"
-        # https://kubernetes.io/docs/tasks/tools/install-kubectl/
-        - "deb https://apt.kubernetes.io/ kubernetes-xenial main"
-      notify:
-        - update apt cache
-
-    # Run all handlers before installing packages from newly added repositories
-    - meta: flush_handlers
-
-    - name: Install remaining apt packages
-      apt:
-        pkg:
-          - code
-          - git
-          - docker-ce
-          - docker-ce-cli
-          - containerd.io
-      become_user: root
-
-    # Installing gnome-software-plugin-flatpak will install a deb version of Software.
-    # https://flatpak.org/setup/Ubuntu/
-    - name: Remove snap-store
-      snap:
-        name: snap-store
-        state: absent
-
-    - name: Install snap packages
-      snap:
+    - name: Install essential packages
+      pacman:
         name:
-          - telegram-desktop
-
-    - name: Install snap packages with '--classic' option
-      snap:
-        name: "{{ item }}"
-        classic: yes
-      with_items:
-          # - helm
-          - hub
-          # - kubectl
-          - skype
-
-    - name: Add flathub flatpak repository remote
-      flatpak_remote:
-        name: flathub
-        state: present
-        flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo
-
-    - name: Install flatpak packages
-      flatpak:
-        name: "{{ item }}"
-        state: present
-      with_items:
-        - com.calibre_ebook.calibre
-        - com.github.tchx84.Flatseal
-        - net.ankiweb.Anki
-        - org.qbittorrent.qBittorrent
-
-    - name: Install docker-compose
-      get_url:
-        # system (Linux) = uname -s; userspace_architecture (x86_64) = uname -m
-        url: "https://github.com/docker/compose/releases/download/1.26.0/\
-          docker-compose-{{ ansible_facts['system'] }}-{{ ansible_facts['userspace_architecture'] }}"
-        dest: /usr/local/bin/docker-compose
-        mode: "u=rwx,g=rx,o=rx"
-
-    - name: Install oh-my-zsh
-      git:
-        repo: https://github.com/robbyrussell/oh-my-zsh
-        dest: "{{ lookup('env','HOME') }}/.oh-my-zsh"
-        version: master
-      register: git_result
-      changed_when: "git_result.after|default('after') != git_result.before|default('before')"
-
-    - name: Install powerlevel10k theme
-      git:
-        repo: https://github.com/romkatv/powerlevel10k
-        dest: "{{ lookup('env','HOME') }}/.oh-my-zsh/themes/"
-        version: master
-        depth: 1
-      register: git_result
-      changed_when: "git_result.after|default('after') != git_result.before|default('before')"
-
-    - name: Install zsh plugins
-      git:
-        repo: "{{ item }}"
-        dest: "{{ lookup('env','HOME') }}/.zsh/"
-        version: master
-      with_items:
-        - https://github.com/zsh-users/zsh-autosuggestions
-        - https://github.com/zsh-users/zsh-syntax-highlighting
-      register: git_result
-      changed_when: "git_result.after|default('after') != git_result.before|default('before')"
-
-    - name: Install oh-my-tmux
-      git:
-        repo: https://github.com/gpakosz/.tmux
-        dest: "{{ lookup('env','HOME') }}"
-        version: master
-      register: git_result
-      changed_when: "git_result.after|default('after') != git_result.before|default('before')"
-
-    - name: Check if vlc pause click plugin is already installed
-      stat: "path=/usr/lib/x86_64-linux-gnu/vlc/plugins/video_filter/libpause_click_plugin.so"
-      register: vlc_pause_click_plugin
-    
-    - name: Download vlc pause click plugin 
-      git:
-        repo: https://github.com/nurupo/vlc-pause-click-plugin
-        dest: "/tmp"
-        version: 2.2.0
-      when: not vlc_pause_click_plugin.stat.exists
-      register: git_result
-      changed_when: "git_result.after|default('after') != git_result.before|default('before')"
-      notify:
-        - install vlc pause click plugin
-
-    - name: Ensure 'docker' group exists
-      group:
-        name: docker
+          # https://wiki.archlinux.org/index.php/Installation_guide
+          - base
+          - base-devel
+          - linux
+          - linux-firmware
+          - intel-ucode
+          - e2fsprogs
+          - lvm2
+          - grub
+          - networkmanager
+          - openssh
+          - neovim
+          - git
+          - sudo
         state: present
 
-    - name: Configure user
-      user:
-        name: "{{ lookup('env','USER') }}"
-        shell: /usr/bin/zsh
-        groups: docker
-        append: true
+    - name: Disable quiet booting
+      replace:
+        # https://wiki.archlinux.org/index.php/GRUB
+        path: /etc/default/grub
+        regexp: '^GRUB_CMDLINE_LINUX_DEFAULT=".*?"$'
+        replace: 'GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3"'
+
+    - name: Enable NetworkManager
+      systemd:
+        # https://wiki.archlinux.org/index.php/NetworkManager
+        name: NetworkManager.service
+        state: started
+        enabled: yes
 
     - name: Set timezone to Europe/Moscow
       timezone:
         name: Europe/Moscow
 
-    - name: Disable boot splash screen
-      replace:
-        path: /etc/default/grub
-        regexp: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"'
-        replace: 'GRUB_CMDLINE_LINUX_DEFAULT=""'
-
-  handlers:
-    - name: update apt cache
-      apt:
-        update_cache: true
-
-    - name: install vlc pause click plugin
-      command: "{{ item }}"
-      args:
-        chdir: "/tmp/vlc-pause-click-plugin"
+    - name: Generate locales
+      locale_gen:
+        name: "{{ item }}"
+        state: present
       with_items:
-        - make
-        - make install
+        - en_US.UTF-8
+        - ru_RU.UTF-8
+
+    - name: Set hostname
+      hostname:
+        name: "{{ hostname }}"
+
+    - name: Set hosts
+      template:
+        src: hosts.j2
+        dest: /etc/hosts
+
+    - name: Allow sudo access to members of wheel group 
+      replace:
+        path: /etc/sudoers
+        regexp: '^# %wheel ALL=(ALL) ALL$'
+        replace: '%wheel ALL=(ALL) ALL'
+        validate: '/usr/bin/visudo --check --file %s'
+
+    - name: Create groups
+      group:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - docker
+
+    - name: Create user
+      user:
+        name: "{{ user }}"
+        shell: /usr/bin/zsh
+        groups:
+          - wheel
+          - docker
+        append: true
+
+    - name: Install packages
+      pacman:
+        name:
+          # File systems
+          # https://wiki.archlinux.org/index.php/File_systems
+          - dosfstools
+          - ntfs-3g
+          # Sound
+          # https://wiki.archlinux.org/index.php/PulseAudio
+          - pulseaudio
+          - pulseaudio-alsa
+          - pulseaudio-bluetooth
+          - pavucontrol
+          # Bluetooth
+          # https://wiki.archlinux.org/index.php/Bluetooth
+          - bluez
+          - bluez-utils
+          - blueman
+          # Documentation
+          - man-db
+          - man-pages
+          # Xorg display server
+          # https://wiki.archlinux.org/index.php/Xorg
+          - xorg-server
+          - xorg-xinit
+          - xorg-xsetroot
+          - xorg-xset
+          - xorg-setxkbmap
+          - xcape
+          - xclip
+          - xf86-video-amdgpu
+          # Window manager
+          - bspwm
+          - sxhkd
+          - picom
+          - feh
+          # Fonts
+          - ttf-jetbrains-mono
+          # Shell
+          - zsh
+          - kitty
+          - imagemagick
+          - python-pynvim
+          - htop
+          # Terminal tools
+          - thefuck
+          - fzf
+          - fd
+          - ripgrep
+          - httpie
+          # Programs
+          - firefox
+          - profile-sync-daemon
+          - keepassxc
+          - goldendict
+          - calibre
+          - qbittorrent
+          - zathura
+          - mpv
+          - gimp
+          - copyq
+          - flameshot
+          - telegram-desktop
+          # Development
+          - python-pipenv
+          - python-virtualenvwrapper
+          - docker
+          - docker-compose
+          - kubectl
+          - helm
+          - hub
+        state: present
+
+    - name: Enable bluetooth
+      systemd:
+        name: bluetooth.service
+        state: started
+        enabled: yes
+
+    - name: Create directories
+      file:
+        path: "{{ lookup('env','HOME') }}/.local/share/zsh/"
+        state: directory
+        recurse: yes
+      become_user: "{{ user }}"
+
+    - name: Install zsh plugins
+      git:
+        repo: "{{ item }}"
+        dest: "{{ lookup('env','HOME') }}/.local/share/zsh/{{ item.split('/')[-1] }}"
+        version: master
+      with_items:
+        - https://github.com/robbyrussell/oh-my-zsh
+        - https://github.com/zsh-users/zsh-autosuggestions
+        - https://github.com/zsh-users/zsh-syntax-highlighting
+      register: git_result
+      changed_when: "git_result.after|default('after') != git_result.before|default('before')"
+      become_user: "{{ user }}"
+
+    - name: Install zsh theme
+      git:
+        repo: https://github.com/romkatv/powerlevel10k
+        dest: "{{ lookup('env','HOME') }}/.local/share/zsh/oh-my-zsh/themes/powerlevel10k"
+        version: master
+        depth: 1
+      register: git_result
+      changed_when: "git_result.after|default('after') != git_result.before|default('before')"
+      become_user: "{{ user }}"

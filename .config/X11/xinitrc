@@ -31,4 +31,4 @@ setxkbmap -option "ctrl:swap_rwin_rctl"
 xcape -e 'Super_L=Escape'
 
 # Start the window manager.
-# exec bspwm
+exec bspwm

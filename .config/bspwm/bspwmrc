@@ -16,12 +16,13 @@ bspc config presel_feedback_color "#2aa198"  # Solarized Cyan
 bspc rule --add firefox desktop='^1'
 bspc rule --add keepassxc state=floating
 bspc rule --add gimp desktop='^5' state=floating follow=on
-bspc rule --add Zathura state=tiled
+bspc rule --add zathura state=tiled
 
 # DESKTOPS
 bspc monitor --reset-desktops 1 2 3 4 5 6 7 8 9 10
 
 # PROGRAMS
-feh --bg-fill --randomize /usr/share/backgrounds/*
 pgrep --exact sxhkd > /dev/null || sxhkd &
+pgrep --exact picom  > /dev/null || picom &
+feh --bg-fill --randomize /usr/share/backgrounds/*
 # "${HOME}"/.config/polybar/launch.sh

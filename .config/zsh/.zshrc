@@ -1,7 +1,18 @@
 # https://github.com/ohmyzsh/ohmyzsh/blob/master/templates/zshrc.zsh-template
-export ZSH="${HOME}/.oh-my-zsh"
+export ZSH="${XDG_DATA_HOME}/zsh/oh-my-zsh"
+
 DISABLE_UPDATE_PROMPT="true"
+
+# History
+# https://github.com/ohmyzsh/ohmyzsh/blob/master/lib/history.zsh
 HIST_STAMPS="yyyy-mm-dd"
+# man zshparam
+HISTFILE="${XDG_DATA_HOME}/zsh/history"
+HISTSIZE=125000
+SAVEHIST=100000
+# man zshoptions
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_REDUCE_BLANKS
 
 # Powerline
 # https://github.com/Powerlevel9k/powerlevel9k/wiki/Stylizing-Your-Prompt
@@ -51,16 +62,6 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/ssh-agent
 zstyle :omz:plugins:ssh-agent agent-forwarding on
 
-# FZF
-# https://github.com/junegunn/fzf
-export FZF_DEFAULT_OPTS="--layout=reverse --height 20%"
-
-# VirtualenvWrapper
-# https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/virtualenvwrapper
-# https://virtualenvwrapper.readthedocs.io/en/latest/install.html#shell-startup-file
-export WORKON_HOME="${HOME}/.virtualenvs"
-export PROJECT_HOME="${HOME}/PycharmProjects"
-
 # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins
 plugins=(
     # Editing
@@ -81,7 +82,6 @@ plugins=(
 
     # Tools
     rsync
-    tmux
     ansible
     fzf
     fd
@@ -101,32 +101,24 @@ plugins=(
 
 . "${ZSH}/oh-my-zsh.sh"
 
-# Manually read '.profile' when connecting with ssh.
-if [[ -n "${SSH_CLIENT}" ]] || [[ -n "${SSH_CONNECTION}" ]] || [[ -n "${SSH_TTY}" ]]; then
-    . "${HOME}/.profile"
+if [[ -f "${XDG_CONFIG_HOME}/zsh/aliases.sh" ]]; then
+    . "${XDG_CONFIG_HOME}/zsh/aliases.sh"
 fi
 
-if [[ -d "${HOME}/.zsh" ]]; then
-    if [[ -f "${HOME}/.zsh/aliases.sh" ]]; then
-        . "${HOME}/.zsh/aliases.sh"
-    fi
-
-    if [[ -f "${HOME}/.zsh/functions.sh" ]]; then
-        . "${HOME}/.zsh/functions.sh"
-    fi
-
-    # Autosuggestions
-    # https://github.com/zsh-users/zsh-autosuggestions/issues/363
-    # if [[ -d "${HOME}/.zsh/zsh-autosuggestions" ]]; then
-    #     . "${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
-    #     # ZSH_AUTOSUGGEST_IGNORE_WIDGETS+=(backward-kill-word)
-    # fi
-
-    # Syntax highlighting
-    # https://github.com/zsh-users/zsh-syntax-highlighting/issues/150
-    # Source command must be at the end of the file!
-    # if [[ -d "${HOME}/.zsh/zsh-syntax-highlighting" ]]; then
-    #     . "${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-    # fi
+if [[ -f "${XDG_CONFIG_HOME}/zsh/functions.sh" ]]; then
+    . "${XDG_CONFIG_HOME}/zsh/functions.sh"
 fi
 
+# Autosuggestions
+# https://github.com/zsh-users/zsh-autosuggestions/issues/363
+# if [[ -d "${XDG_DATA_HOME}/zsh/zsh-autosuggestions" ]]; then
+#     . "${XDG_DATA_HOME}/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
+#     # ZSH_AUTOSUGGEST_IGNORE_WIDGETS+=(backward-kill-word)
+# fi
+
+# Syntax highlighting
+# https://github.com/zsh-users/zsh-syntax-highlighting/issues/150
+# Source command must be at the end of the file!
+# if [[ -d "${XDG_DATA_HOME}/zsh/zsh-syntax-highlighting" ]]; then
+#     . "${XDG_DATA_HOME}/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+# fi
