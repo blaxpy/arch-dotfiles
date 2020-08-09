@@ -117,8 +117,7 @@ fi
 # fi
 
 # Syntax highlighting
-# https://github.com/zsh-users/zsh-syntax-highlighting/issues/150
 # Source command must be at the end of the file!
-# if [[ -d "${XDG_DATA_HOME}/zsh/zsh-syntax-highlighting" ]]; then
-#     . "${XDG_DATA_HOME}/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-# fi
+if [[ -d "${XDG_DATA_HOME}/zsh/zsh-syntax-highlighting" ]]; then
+    . "${XDG_DATA_HOME}/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+fi

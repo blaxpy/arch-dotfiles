@@ -34,6 +34,7 @@
           - networkmanager
           - openssh
           - neovim
+          - python-pynvim
           - git
           - sudo
         state: present
@@ -132,20 +133,28 @@
           - sxhkd
           - picom
           - feh
+          - yad  # calendar
+          - xdotool  # calendar
+          # yay
+          # - polybar
           # Fonts
           - ttf-jetbrains-mono
+          # yay
+          # - ttf-material-design-icons-git
+          # - ttf-weather-icons
           # Shell
           - zsh
           - kitty
           - imagemagick
-          - python-pynvim
+          # Terminal programs
           - htop
-          # Terminal tools
+          - wget
           - thefuck
           - fzf
           - fd
           - ripgrep
           - httpie
+          - jq
           # Programs
           - firefox
           - profile-sync-daemon
@@ -159,6 +168,8 @@
           - copyq
           - flameshot
           - telegram-desktop
+          # yay
+          # - joplin
           # Development
           - python-pipenv
           - python-virtualenvwrapper
