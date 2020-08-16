@@ -16,6 +16,7 @@
 # config files
 !/.zshenv
 !/.ideavimrc
+!/.pam_environment
 
 # config directory
 !/.config/

@@ -118,6 +118,8 @@
           # Documentation
           - man-db
           - man-pages
+          # Input method framework
+          - ibus
           # Xorg display server
           # https://wiki.archlinux.org/index.php/Xorg
           - xorg-server

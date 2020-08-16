@@ -26,13 +26,11 @@ setxkbmap -option "caps:super"
 setxkbmap -option "ctrl:menu_rctrl"
 # Right Ctrl as Right Super.
 setxkbmap -option "ctrl:swap_rwin_rctl"
-# Set layout.
-setxkbmap -layout us,ru
-# Switch to another layout with Alt+Space.
-setxkbmap -option "grp:alt_space_toggle"
 
 # Make Caps Lock generate Escape when pressed and released on it's own.
 xcape -e 'Super_L=Escape'
+
+ibus-daemon --daemonize --replace --xim
 
 # Start the window manager.
 exec bspwm
