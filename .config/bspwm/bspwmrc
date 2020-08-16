@@ -23,8 +23,7 @@ bspc rule --add yad-calendar state=floating
 bspc monitor --reset-desktops 1 2 3 4 5 6 7 8 9 10
 
 # PROGRAMS
-feh --bg-fill --randomize /usr/share/backgrounds/*
-for program in sxhkd picom; do
-    pgrep --exact $program > /dev/null || $program &
-done
-$HOME/.config/polybar/launch.sh
+killall --quiet sxhkd || true; sxhkd &
+killall --quiet polybar || true; polybar top > /tmp/polybar.log 2>&1 &
+feh --bg-fill --randomize ~/Wallpapers
+killall --quiet picom && sleep 0.1 || true; picom &

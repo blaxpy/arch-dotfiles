@@ -27,6 +27,7 @@
 !/.config/git/
 !/.config/kitty/
 !/.config/nvim/
+!/.config/picom/
 !/.config/polybar/
 !/.config/psd/
 !/.config/rofi/
