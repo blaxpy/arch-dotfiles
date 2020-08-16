@@ -1,26 +1,25 @@
 #!/usr/bin/bash
 
+# DESKTOPS
+bspc monitor --reset-desktops 1 2 3 4 5 6 7 8 9 10
+
 # CONFIGURATION
 bspc config border_width 2
 bspc config window_gap 0
 bspc config focus_follows_pointer true
-# Add top padding for polybar.
-bspc config top_padding 20
 
-# COLORS
+# Colors
 bspc config normal_border_color "#eee8d5"  # Solarized Base2
 bspc config focused_border_color "#859900"  # Solarized Green
 bspc config presel_feedback_color "#2aa198"  # Solarized Cyan
 
-# PROGRAM RULES
-bspc rule --add firefox desktop='^1'
-bspc rule --add keepassxc state=floating
-bspc rule --add gimp desktop='^5' state=floating follow=on
-bspc rule --add zathura state=tiled
-bspc rule --add yad-calendar state=floating
+# Add top padding for polybar.
+bspc config top_padding 20
 
-# DESKTOPS
-bspc monitor --reset-desktops 1 2 3 4 5 6 7 8 9 10
+# PROGRAM RULES
+bspc rule --add KeePassXC state=floating
+bspc rule --add Peek state=floating
+bspc rule --add Zathura state=tiled
 
 # PROGRAMS
 killall --quiet sxhkd || true; sxhkd &

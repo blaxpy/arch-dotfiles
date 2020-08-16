@@ -74,7 +74,7 @@
         src: hosts.j2
         dest: /etc/hosts
 
-    - name: Allow sudo access to members of wheel group 
+    - name: Allow sudo access to members of wheel group
       replace:
         path: /etc/sudoers
         regexp: '^# %wheel ALL=(ALL) ALL$'
@@ -129,14 +129,15 @@
           - xorg-setxkbmap
           - xcape
           - xclip
+          - xrandr
           - xf86-video-amdgpu
           # Window manager
-          - bspwm
-          - sxhkd
-          - picom
-          - feh
-          - yad  # calendar
-          - xdotool  # calendar
+          - bspwm  # Window manager
+          - sxhkd  # Hotkey daemon
+          - picom  # Compositor for X11
+          - feh  # Image viewer
+          - yad  # Calendar
+          - xdotool  # Automation tool for calendar
           # yay
           # - polybar
           # Fonts
@@ -152,24 +153,25 @@
           - htop
           - wget
           - thefuck
-          - fzf
+          - fzf  # Fuzzy finder
           - fd
           - ripgrep
           - httpie
-          - jq
+          - jq  # JSON tool
           # Programs
-          - firefox
-          - profile-sync-daemon
-          - keepassxc
-          - goldendict
-          - calibre
-          - qbittorrent
-          - zathura
-          - mpv
-          - gimp
-          - copyq
-          - flameshot
-          - telegram-desktop
+          - firefox  # Web browser
+          - profile-sync-daemon  # Browser profile in tmpfs
+          - keepassxc  # Password manager
+          - goldendict  # Dictionary
+          - calibre  # E-book manager
+          - qbittorrent  # Torrent client
+          - zathura  # PDF viewer
+          - mpv  # Video player
+          - gimp  # Image editor
+          - copyq  # Clipboard manager
+          - flameshot  # Screenshot tool
+          - peek  # GIF recorder
+          - telegram-desktop  # Instant messenger
           # yay
           # - joplin
           # Development
