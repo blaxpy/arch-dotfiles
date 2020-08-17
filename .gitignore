@@ -14,9 +14,14 @@
 !.ssh/config_example
 
 # config files
-!/.zshenv
 !/.ideavimrc
 !/.pam_environment
+!/.zshenv
+
+# config directories
+!/.goldendict/
+/.goldendict/*
+!/.goldendict/article-style.css
 
 # config directory
 !/.config/
