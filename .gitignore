@@ -29,6 +29,7 @@
 
 !/.config/X11/
 !/.config/bspwm/
+!/.config/dunst/
 !/.config/git/
 !/.config/kitty/
 !/.config/nvim/
@@ -47,6 +48,11 @@
 !/.config/zsh/.zshrc
 !/.config/zsh/aliases.sh
 !/.config/zsh/functions.sh
+
+# nvim
+!/.config/nvim/
+/.config/nvim/*
+!/.config/nvim/init.vim
 
 # copyq
 !/.config/copyq/
