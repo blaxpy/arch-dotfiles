@@ -6,7 +6,8 @@ bspc monitor --reset-desktops 1 2 3 4 5 6 7 8 9 10
 # CONFIGURATION
 bspc config border_width 2
 bspc config window_gap 0
-bspc config focus_follows_pointer true
+# Causes flickering.
+# bspc config focus_follows_pointer true
 
 # Colors
 bspc config normal_border_color "#eee8d5"  # Solarized Base2
