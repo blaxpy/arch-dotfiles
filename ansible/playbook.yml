@@ -136,6 +136,7 @@
           - sxhkd  # Hotkey daemon
           - picom  # Compositor for X11
           - dunst  # Notification daemon
+          - hsetroot  # Wallpaper changer
           - feh  # Image viewer
           - yad  # Calendar
           - xdotool  # Automation tool for calendar
