@@ -46,7 +46,7 @@
         regexp: '^GRUB_CMDLINE_LINUX_DEFAULT=".*?"$'
         replace: 'GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3"'
 
-    - name: Enable NetworkManager
+    - name: Enable NetworkManager systemd service
       systemd:
         # https://wiki.archlinux.org/index.php/NetworkManager
         name: NetworkManager.service
@@ -186,11 +186,14 @@
           - hub
         state: present
 
-    - name: Enable bluetooth
+    - name: Enable systemd services
       systemd:
-        name: bluetooth.service
+        name: "{{ item }}"
         state: started
         enabled: yes
+      with_items:
+        - bluetooth.service
+        - docker.service
 
     - name: Create directories
       file:
