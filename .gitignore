@@ -3,74 +3,78 @@
 /*
 
 # TRACK
-!/.gitignore
+!.gitignore
 
 # ansible
-!/ansible/
+!ansible/
 
 # ssh
-!/.ssh/
-/.ssh/*
+!.ssh/
+.ssh/*
 !.ssh/config_example
 
 # config files
-!/.ideavimrc
-!/.pam_environment
-!/.zshenv
+!.ideavimrc
+!.pam_environment
+!.zshenv
 
 # config directories
-!/.goldendict/
-/.goldendict/*
-!/.goldendict/article-style.css
+!.goldendict/
+.goldendict/*
+!.goldendict/article-style.css
 
 # config directory
-!/.config/
-/.config/*
+!.config/
+.config/*
 
-!/.config/X11/
-!/.config/bspwm/
-!/.config/dunst/
-!/.config/git/
-!/.config/kitty/
-!/.config/nvim/
-!/.config/picom/
-!/.config/polybar/
-!/.config/psd/
-!/.config/rofi/
-!/.config/sxhkd/
-!/.config/vifm/
-!/.config/zathura/
+!.config/X11/
+!.config/bspwm/
+!.config/dunst/
+!.config/git/
+!.config/kitty/
+!.config/nvim/
+!.config/picom/
+!.config/polybar/
+!.config/rofi/
+!.config/sxhkd/
+!.config/vifm/
+!.config/zathura/
 
 # zsh
-!/.config/zsh/
-/.config/zsh/*
-!/.config/zsh/.zprofile
-!/.config/zsh/.zshrc
-!/.config/zsh/aliases.sh
-!/.config/zsh/functions.sh
+!.config/zsh/
+.config/zsh/*
+!.config/zsh/.zprofile
+!.config/zsh/.zshrc
+!.config/zsh/aliases.sh
+!.config/zsh/functions.sh
 
 # nvim
-!/.config/nvim/
-/.config/nvim/*
-!/.config/nvim/init.vim
+!.config/nvim/
+.config/nvim/*
+!.config/nvim/init.vim
+
+# psd
+!.config/psd/
+.config/psd/*
+!.config/psd/psd.conf
 
 # copyq
-!/.config/copyq/
-/.config/copyq/*
-!/.config/copyq/copyq-commands.ini
-!/.config/copyq/copyq.conf
+!.config/copyq/
+.config/copyq/*
+!.config/copyq/copyq-commands.ini
+!.config/copyq/copyq.conf
 
 # vscode
-!/.config/Code/
-/.config/Code/*
-!/.config/Code/User/
-/.config/Code/User/*
-!/.config/Code/User/keybindings.json
-!/.config/Code/User/settings.json
+!.config/Code/
+.config/Code/*
+!.config/Code/User/
+.config/Code/User/*
+!.config/Code/User/keybindings.json
+!.config/Code/User/settings.json
 
 # ipython
-!/.config/jupyter/
-/.config/jupyter/*
-!/.config/jupyter/profile_default/
-/.config/jupyter/profile_default/*
-!/.config/jupyter/profile_default/ipython_config.py
+!.config/jupyter/
+.config/jupyter/*
+!.config/jupyter/profile_default/
+.config/jupyter/profile_default/*
+!.config/jupyter/profile_default/ipython_config.py

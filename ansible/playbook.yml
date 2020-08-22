@@ -193,6 +193,7 @@
         enabled: yes
       with_items:
         - bluetooth.service
+        - psd.service
         - docker.service
 
     - name: Create directories
