@@ -1,0 +1,17 @@
+#!/bin/bash
+
+window_id=$1
+class_name=$2
+instance_name=$3
+intermediate_consequences=$4
+
+eval "$(xdotool getdisplaygeometry --shell)"
+DISPLAY_WIDTH=$WIDTH
+DISPLAY_HEIGHT=$HEIGHT
+BORDER_WIDTH=$((2 * 2))
+POLYBAR_HEIGHT=20
+
+if [ "$class_name" = "jetbrains-toolbox" ]; then
+    eval "$(xdotool getwindowgeometry --shell $window_id)"
+    xdotool windowmove $window_id $(($DISPLAY_WIDTH - $WIDTH - $BORDER_WIDTH)) $POLYBAR_HEIGHT
+fi
