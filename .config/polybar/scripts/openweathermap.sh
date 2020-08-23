@@ -72,11 +72,11 @@ if [ -n "$current" ] && [ -n "$forecast" ]; then
 
 
     if [ "$current_temp" -gt "$forecast_temp" ]; then
-        trend=""
+        trend="󰁃"
     elif [ "$forecast_temp" -gt "$current_temp" ]; then
-        trend=""
+        trend="󰁜"
     else
-        trend=""
+        trend="󰁔"
     fi
 
 
@@ -85,12 +85,12 @@ if [ -n "$current" ] && [ -n "$forecast" ]; then
     now=$(date +%s)
 
     if [ "$sun_rise" -gt "$now" ]; then
-        daytime=" $(get_duration "$((sun_rise-now))")"
+        daytime="󰖜 $(get_duration "$((sun_rise-now))")"
     elif [ "$sun_set" -gt "$now" ]; then
-        daytime=" $(get_duration "$((sun_set-now))")"
+        daytime="󰖛 $(get_duration "$((sun_set-now))")"
     else
-        daytime=" $(get_duration "$((sun_rise-now))")"
+        daytime="󰖜 $(get_duration "$((sun_rise-now))")"
     fi
 
-    echo "$(get_icon "$current_icon") $current_temp$SYMBOL  $trend  $(get_icon "$forecast_icon") $forecast_temp$SYMBOL   $daytime"
+    echo "$(get_icon "$current_icon") $current_temp$SYMBOL $trend $(get_icon "$forecast_icon") $forecast_temp$SYMBOL $daytime"
 fi
