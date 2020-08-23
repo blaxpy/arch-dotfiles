@@ -25,6 +25,5 @@ bspc rule --add Zathura state=tiled
 # PROGRAMS
 killall --quiet sxhkd || true; sxhkd &
 killall --quiet polybar || true; polybar top > /tmp/polybar.log 2>&1 &
-# feh --bg-fill --randomize ~/Wallpapers
 killall --quiet picom && sleep 0.1 || true; picom &
 killall --quiet dunst || true; dunst &
