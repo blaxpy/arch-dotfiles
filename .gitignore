@@ -58,6 +58,11 @@
 .config/psd/*
 !.config/psd/psd.conf
 
+# htop
+!.config/htop/
+.config/htop/*
+!.config/htop/tracked_htoprc
+
 # copyq
 !.config/copyq/
 .config/copyq/*
