@@ -126,6 +126,9 @@ super + f
 # Browser.
 super + b
     firefox
+# Tor.
+super + t
+    torbrowser-launcher
 # Show clipmenu.
 # super + v
 #     CM_LAUNCHER=rofi clipmenu \

@@ -162,6 +162,7 @@
           # Programs
           - firefox  # Web browser
           - profile-sync-daemon  # Browser profile in tmpfs
+          - torbrowser-launcher  # Tor browser
           - keepassxc  # Password manager
           - goldendict  # Dictionary
           - calibre  # E-book manager
