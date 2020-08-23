@@ -28,6 +28,10 @@ bspc rule --add jetbrains-toolbox state=floating
 bspc rule --add Zathura state=tiled
 bspc config external_rules_command $HOME/.config/bspwm/external_rules
 
+# Fix Java applications.
+# https://wiki.archlinux.org/index.php/Bspwm#Problems_with_Java_applications
+wmname LG3D
+
 # PROGRAMS
 killall --quiet sxhkd || true; sxhkd &
 killall --quiet polybar || true; polybar top > /tmp/polybar.log 2>&1 &
