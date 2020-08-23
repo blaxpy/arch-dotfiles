@@ -45,9 +45,9 @@ super + {1-9,0}
 
 # STATE AND FLAGS
 # Set the window state.
+# Available states: floating, tiled, pseudo_tiled, fullscreen.
 super + {y,u}
-    bspc node --state {floating,tiled}
-    # bspc node --state {floating,tiled,pseudo_tiled,fullscreen}
+    bspc node --state {tiled,floating}
 # Set the node flags.
 super + {m,Insert}
     bspc node --flag {marked,hidden}
@@ -129,12 +129,6 @@ super + b
 # Tor.
 super + t
     torbrowser-launcher
-# Show clipmenu.
-# super + v
-#     CM_LAUNCHER=rofi clipmenu \
-#         -location 1 \
-#         -m -3 \
-#         -no-show-icons \
-#         -theme-str '* \{ font: 10px; \}' \
-#         -theme-str 'listview \{ spacing: 0; \}' \
-#         -theme-str 'window \{ width: 20em; \}'
+# Clipboard manager.
+super + v
+    copyq show

@@ -21,9 +21,10 @@ bspc config top_padding 20
 # Display window properties:
 #   xprop <Enter> then click on the target window
 bspc rule --add GoldenDict state=floating
-bspc rule --add TelegramDesktop state=floating
 bspc rule --add KeePassXC state=floating
+bspc rule --add copyq state=floating
 bspc rule --add Peek state=floating
+bspc rule --add TelegramDesktop state=floating
 bspc rule --add jetbrains-toolbox state=floating
 bspc rule --add Zathura state=tiled
 bspc config external_rules_command $HOME/.config/bspwm/external_rules
