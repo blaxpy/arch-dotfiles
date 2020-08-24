@@ -123,14 +123,15 @@
           # Xorg display server
           # https://wiki.archlinux.org/index.php/Xorg
           - xorg-server
-          - xorg-xinit
-          - xorg-xsetroot
-          - xorg-xset
-          - xorg-setxkbmap
-          - xcape
-          - xclip
-          - xrandr
-          - xf86-video-amdgpu
+          - xorg-xinit  # Start Xorg
+          - xorg-xsetroot  # Cursor shape
+          - xorg-xrandr  # Screen configuration
+          - xorg-xset  # Key autorepeat speed
+          - xorg-setxkbmap  # Keyboard configuration
+          - xf86-video-amdgpu  # Video driver
+          - xcape  # Modifier key as another key
+          - xclip  # Clipboard
+          - xdotool  # Automation tool
           # Window manager
           - bspwm  # Window manager
           - sxhkd  # Hotkey daemon
@@ -138,14 +139,8 @@
           - dunst  # Notification daemon
           - hsetroot  # Wallpaper changer
           - yad  # Calendar
-          - xdotool  # Automation tool for calendar
-          # yay
-          # - polybar
           # Fonts
           - ttf-jetbrains-mono
-          # yay
-          # - ttf-material-design-icons-git
-          # - ttf-weather-icons
           # Shell
           - zsh
           - kitty
@@ -174,11 +169,10 @@
           - flameshot  # Screenshot tool
           - peek  # GIF recorder
           - telegram-desktop  # Instant messenger
-          # yay
-          # - joplin
           # Development
           - python-pipenv
           - python-virtualenvwrapper
+          - jdk-openjdk
           - docker
           - docker-compose
           - kubectl
@@ -190,11 +184,20 @@
       systemd:
         name: "{{ item }}"
         state: started
-        enabled: yes
+        enabled: true
       with_items:
         - bluetooth.service
-        - psd.service
         - docker.service
+
+    - name: Enable systemd user services
+      systemd:
+        name: "{{ item }}"
+        state: started
+        enabled: true
+        scope: user
+      with_items:
+        - psd.service
+      become_user: "{{ user }}"
 
     - name: Create directories
       file:
@@ -225,3 +228,32 @@
       register: git_result
       changed_when: "git_result.after|default('after') != git_result.before|default('before')"
       become_user: "{{ user }}"
+
+    - name: Check yay presence
+      stat: "path=/usr/bin/yay"
+      register: yay
+
+    - name: Download yay
+      git:
+        repo: https://aur.archlinux.org/yay.git
+        dest: "/tmp/yay"
+      when: not yay.stat.exists
+      notify:
+        - Install yay
+        - Install AUR packages
+      become_user: "{{ user }}"
+
+  handlers:
+    - name: Install yay
+      command: makepkg --syncdeps --install --noconfirm
+      args:
+        chdir: "/tmp/yay"
+
+    - name: Install AUR packages
+      command:  "yay -S --noconfirm {{ item }}"
+      with_items:
+        - polybar
+        - joplin
+        - ttf-ms-fonts
+        - ttf-material-design-icons-git
+        - ttf-weather-icons
