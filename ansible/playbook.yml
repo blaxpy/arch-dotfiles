@@ -104,6 +104,10 @@
           # https://wiki.archlinux.org/index.php/File_systems
           - dosfstools
           - ntfs-3g
+          # Network
+          - openvpn
+          - network-manager-applet
+          - networkmanager-openvpn
           # Sound
           # https://wiki.archlinux.org/index.php/PulseAudio
           - pulseaudio

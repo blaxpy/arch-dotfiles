@@ -38,4 +38,6 @@ killall --quiet sxhkd || true; sxhkd &
 killall --quiet polybar || true; polybar top > /tmp/polybar.log 2>&1 &
 killall --quiet picom && sleep 0.1 || true; picom &
 killall --quiet dunst || true; dunst &
-killall --quiet blueman-applet || true; blueman-applet
+# Tray
+killall --quiet blueman-applet || true; blueman-applet &
+killall --quiet nm-applet || true; nm-applet &
