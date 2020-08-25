@@ -258,7 +258,8 @@
       command:  "yay -S --noconfirm {{ item }}"
       with_items:
         - polybar
-        - joplin
         - ttf-ms-fonts
         - ttf-material-design-icons-git
         - ttf-weather-icons
+        - joplin
+        - slack-desktop

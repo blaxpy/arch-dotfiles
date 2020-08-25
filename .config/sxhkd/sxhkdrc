@@ -111,24 +111,24 @@ super + ctrl + BackSpace
     | xargs -I ID bspc node ID --presel-dir cancel
 
 # *** PROGRAMS ***
-# Program launcher.
-super + space
-    rofi -show run
-# Window switcher.
 super + e
     rofi -show window
-# Terminal emulator.
-super + Return
-    kitty
-# File manager.
+super + t
+    telegram-desktop
+
+super + s
+    slack
+super + d
+    goldendict
 super + f
     kitty ranger
-# Browser.
-super + b
-    firefox
-# Tor.
-super + t
-    torbrowser-launcher
-# Clipboard manager.
+super + Return
+    kitty
+
 super + v
     copyq show
+super + b
+    firefox
+
+super + space
+    rofi -show run

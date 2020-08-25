@@ -25,6 +25,7 @@ bspc rule --add KeePassXC state=floating
 bspc rule --add copyq state=floating
 bspc rule --add Peek state=floating
 bspc rule --add TelegramDesktop state=floating
+bspc rule --add Slack state=floating
 bspc rule --add jetbrains-toolbox state=floating
 bspc rule --add Zathura state=tiled
 bspc config external_rules_command $HOME/.config/bspwm/external_rules
