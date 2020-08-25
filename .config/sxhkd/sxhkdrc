@@ -92,21 +92,21 @@ super + {Left,Down,Up,Right}
 
 # RESIZE
 # Expand a window by moving one of its side outward.
-super + ctrl + {h,j,k,l}
+super + shift + {h,j,k,l}
     bspc node --resize {left -20 0,bottom 0 20,top 0 -20,right 20 0}
 # Contract a window by moving one of its side inward.
-super + ctrl + alt + {h,j,k,l}
+super + shift + alt + {h,j,k,l}
     bspc node --resize {right -20 0,top 0 20,bottom 0 -20,left 20 0}
 
 # PRESELECT
 # Preselect the direction.
-super + shift + {h,j,k,l}
+super + ctrl + {h,j,k,l}
     bspc node --presel-dir {west,south,north,east}
 # Preselect the ratio.
-super + shift + {1-9}
+super + ctrl + {1-9}
     bspc node --presel-ratio 0.{1-9}
 # Cancel the preselection for the focused desktop.
-super + shift + BackSpace
+super + ctrl + BackSpace
     bspc query --nodes --desktop \
     | xargs -I ID bspc node ID --presel-dir cancel
 
