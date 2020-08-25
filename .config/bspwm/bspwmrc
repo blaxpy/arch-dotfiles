@@ -40,4 +40,5 @@ killall --quiet picom && sleep 0.1 || true; picom &
 killall --quiet dunst || true; dunst &
 # Tray
 killall --quiet blueman-applet || true; blueman-applet &
+killall --quiet redshift-gtk redshift || true; redshift-gtk &
 killall --quiet nm-applet || true; nm-applet &

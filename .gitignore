@@ -35,6 +35,7 @@
 !.config/nvim/
 !.config/picom/
 !.config/polybar/
+!.config/redshift/
 !.config/rofi/
 !.config/sxhkd/
 !.config/vifm/

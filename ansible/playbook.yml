@@ -140,6 +140,7 @@
           - bspwm  # Window manager
           - sxhkd  # Hotkey daemon
           - picom  # Compositor for X11
+          - redshift  # Color temperature adjuster
           - dunst  # Notification daemon
           - hsetroot  # Wallpaper changer
           - yad  # Calendar
