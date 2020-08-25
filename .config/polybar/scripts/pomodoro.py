@@ -91,7 +91,7 @@ class Status:
 
     def show(self):
         status = WORK if self.status == "work" else BREAK
-        sys.stdout.write("{} {}\n".format(status, self.timer))
+        sys.stdout.write(f"{status}{self.timer}\n")
         sys.stdout.flush()
 
     def toggle(self):
