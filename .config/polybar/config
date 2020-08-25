@@ -118,7 +118,7 @@ ramp-2 = 󰸁
 
 [module/network]
 type = internal/network
-interface = enp8s0
+interface = eno1
 interval = 1
 label-connected = 󰁆%downspeed:8% 󰁞%upspeed:8%
 format-disconnected =
