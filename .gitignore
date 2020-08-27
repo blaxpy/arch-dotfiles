@@ -27,6 +27,8 @@
 !.config/
 .config/*
 
+!.config/chromium-flags.conf
+
 !.config/X11/
 !.config/bspwm/
 !.config/dunst/

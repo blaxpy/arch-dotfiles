@@ -161,8 +161,9 @@
           - jq  # JSON tool
           # Programs
           - firefox  # Web browser
+          - chromium  # Web browser
+          - torbrowser-launcher  # Tor web browser
           - profile-sync-daemon  # Browser profile in tmpfs
-          - torbrowser-launcher  # Tor browser
           - keepassxc  # Password manager
           - goldendict  # Dictionary
           - calibre  # E-book manager
