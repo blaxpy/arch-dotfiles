@@ -40,6 +40,7 @@ killall --quiet polybar || true; polybar top > /tmp/polybar.log 2>&1 &
 killall --quiet picom && sleep 0.1 || true; picom &
 killall --quiet dunst || true; dunst &
 # Tray
+killall --quiet nm-applet || true; nm-applet &
 killall --quiet blueman-applet || true; blueman-applet &
 killall --quiet redshift-gtk redshift || true; redshift-gtk &
-killall --quiet nm-applet || true; nm-applet &
+killall --quiet copyq || true; copyq &

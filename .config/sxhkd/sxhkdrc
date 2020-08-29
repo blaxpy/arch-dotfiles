@@ -116,6 +116,8 @@ super + e
 super + t
     telegram-desktop
 
+super + a
+    keepassxc
 super + s
     slack
 super + d
