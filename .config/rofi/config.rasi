@@ -1,0 +1,4 @@
+configuration {
+    font: "JetBrains Mono 11";
+    cycle: false;
+}
