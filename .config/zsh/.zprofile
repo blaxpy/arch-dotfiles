@@ -17,6 +17,7 @@ export PAGER=less
 # to properly calculate the position.
 export MANPAGER='less +Gg'
 
+# https://wiki.archlinux.org/index.php/IBus
 export GTK_IM_MODULE=ibus
 export QT_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
@@ -29,6 +30,11 @@ export XDG_DATA_HOME=$HOME/.local/share
 # Set configuration directories.
 export IPYTHONDIR=$XDG_CONFIG_HOME/jupyter
 export JUPYTER_CONFIG_DIR=$XDG_CONFIG_HOME/jupyter
+
+# Set private environment variables.
+set -a
+. $HOME/.env
+set +a
 
 if systemctl -q is-active graphical.target && [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
   exec startx $XDG_CONFIG_HOME/X11/xinitrc
