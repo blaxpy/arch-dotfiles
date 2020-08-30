@@ -4,8 +4,10 @@
 [core]
     autocrlf = false
     safecrlf = true
-[url "ssh://git@github.com/"]
+[url "git@github.com:"]
     insteadOf = https://github.com/
+[url "git@github-alytics:alytics"]
+    insteadOf = git@github.com:alytics
 [push]
     default = current
 [pull]
