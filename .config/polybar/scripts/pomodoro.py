@@ -1,179 +1,187 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import os
-import sys
-import socket
 import argparse
 import operator
-import time
+import os
 import select
+import socket
+import subprocess
+import sys
+import time
 from contextlib import contextmanager
-from subprocess import call, DEVNULL
+from enum import Enum
+from typing import Iterator, Union
+
+DEFAULT_WORK_TIME = 30 * 60
+DEFAULT_BREAK_TIME = 5 * 60
+SOUND_FILE = os.path.join(os.path.dirname(__file__), "sound.mp3")
+
+SOCK_DIR = os.environ.get("XDG_RUNTIME_DIR", "/var/tmp")
+SOCK_FILE = os.path.join(SOCK_DIR, "pomodoro.sock")
 
 
-SOCKDIR = os.environ.get("XDG_RUNTIME_DIR", "/var/tmp")
-SOCKFILE = os.path.join(SOCKDIR, "polypomo.sock")
-WORK = "󱎫"
-BREAK = "󰔛"
+class Mode(str, Enum):
+    WORK = "󱎫"
+    BREAK = "󰔛"
+
+
+class Actions(str, Enum):
+    TOGGLE = "toggle"
+    END = "end"
+    LOCK = "lock"
+    TIMER = "timer"
+
+
+class ChangeOperator(str, Enum):
+    ADD = "add"
+    SUB = "sub"
 
 
 class Timer:
-    def __init__(self, remtime):
-        self.time = remtime
+    def __init__(self, seconds: int):
+        self.seconds = seconds
+        self.previous_time = time.time()
         self.notified = False
-        self.tick()
 
-    def __str__(self):
-        return self.format_time()
-
-    def tick(self):
-        self.previous = time.time()
-
-    def format_time(self):
-        day_factor = 86400
-        hour_factor = 3600
-        minute_factor = 60
-
-        if self.time > 0:
-            rem = self.time
-            neg = ""
-        else:
-            rem = -self.time
-            neg = "-"
-        days = int(rem // day_factor)
-        rem -= days * day_factor
-        hours = int(rem // hour_factor)
-        rem -= hours * hour_factor
-        minutes = int(rem // minute_factor)
-        rem -= minutes * minute_factor
-        seconds = int(rem // 1)
-
-        strtime = []
-        if days > 0:
-            strtime.append(str(days))
-        if days > 0 or hours > 0:
-            strtime.append("{:02d}".format(hours))
-
-        # Always append minutes and seconds
-        strtime.append("{:02d}".format(minutes))
-        strtime.append("{:02d}".format(seconds))
-
-        return neg + ":".join(strtime)
+    def change(self, op: Union[operator.add, operator.sub], seconds: int):
+        self.seconds = op(self.seconds, seconds)
 
     def update(self):
         now = time.time()
-        delta = now - self.previous
-        self.time -= delta
+        delta = now - self.previous_time
+        self.seconds -= delta
 
-        # Send a notification when timer reaches 0
-        if not self.notified and self.time < 0:
-            self.notified = True
-            try:
-                call(["notify-send", "-t", "0", "-u", "critical", "Pomodoro",
-                      "Timer reached zero"], stdout=DEVNULL, stderr=DEVNULL)
-            except FileNotFoundError:
-                # Skip if notify-send isn't installed
-                pass
+        if self.seconds < 0:
+            # Send a notification when the timer reaches zero.
+            if not self.notified and self.seconds < 0:
+                self.notified = True
+                subprocess.Popen(["notify-send", "--urgency=critical", "Pomodoro", "Timer reached zero"])
+                subprocess.Popen(["mpv", "--really-quiet", SOUND_FILE])
+        else:
+            # Resend the notification if a user has increased the time after the timer expiration.
+            if self.notified:
+                self.notified = False
 
-    def change(self, op, seconds):
-        self.time = op(self.time, seconds)
+    def tick(self):
+        self.previous_time = time.time()
+
+    def __str__(self):
+        if self.seconds > 0:
+            seconds = self.seconds
+            sign = ""
+        else:
+            seconds = -self.seconds
+            sign = "-"
+
+        seconds = int(seconds)
+
+        minutes, seconds = divmod(seconds, 60)
+        hours, minutes = divmod(minutes, 60)
+        days, hours = divmod(hours, 24)
+
+        parts = []
+        if days:
+            parts.append(str(days))
+        if hours:
+            parts.append(f"{hours:02}")
+        parts.append(f"{minutes:02}")
+        parts.append(f"{seconds:02}")
+
+        return f"{sign}{':'.join(parts)}"
 
 
 class Status:
-    def __init__(self, worktime, breaktime):
-        self.worktime = worktime
-        self.breaktime = breaktime
-        self.status = "work"  # or "break"
-        self.timer = Timer(self.worktime)
+    def __init__(self, work_time: int, break_time: int):
+        self.work_time = work_time
+        self.break_time = break_time
+
+        self.mode = Mode.WORK
         self.active = False
         self.locked = True
 
+        self._timer = Timer(self.work_time)
+
     def show(self):
-        status = WORK if self.status == "work" else BREAK
-        sys.stdout.write(f"{status}{self.timer}\n")
+        sys.stdout.write(f"{self.mode}{self._timer}\n")
         sys.stdout.flush()
 
     def toggle(self):
         self.active = not self.active
 
-    def toggle_lock(self):
+    def lock(self):
         self.locked = not self.locked
 
-    def update(self):
-        if self.active:
-            self.timer.update()
-        # This ensures the timer counts time since the last iteration
-        # and not since it was initialized
-        self.timer.tick()
+    def end(self):
+        self.active = False
 
-    def change(self, op, seconds):
+        if self.mode == Mode.WORK:
+            self.mode = Mode.BREAK
+            self._timer = Timer(self.break_time)
+        elif self.mode == Mode.BREAK:
+            self.mode = Mode.WORK
+            self._timer = Timer(self.work_time)
+
+    def timer(self, op: str, seconds: str):
         if self.locked:
             return
 
         seconds = int(seconds)
-        op = operator.add if op == "add" else operator.sub
-        self.timer.change(op, seconds)
+        op = operator.add if op == ChangeOperator.ADD else operator.sub
 
-    def next_timer(self):
-        self.active = False
+        self._timer.change(op, seconds)
 
-        if self.status == "work":
-            self.status = "break"
-            self.timer = Timer(self.breaktime)
-        elif self.status == "break":
-            self.status = "work"
-            self.timer = Timer(self.worktime)
+    def tick(self):
+        if self.active:
+            self._timer.update()
+        self._timer.tick()
 
 
 @contextmanager
-def setup_listener():
-    s = socket.socket(socket.AF_UNIX,
-                      socket.SOCK_DGRAM)
+def setup_listener() -> Iterator[socket.socket]:
+    sock = socket.socket(socket.AF_UNIX, socket.SOCK_DGRAM)
 
-    # If there's an existing socket, replace it
-    # this isn't nice to active polypomo instances but ensures we can start
     try:
-        os.remove(SOCKFILE)
+        os.remove(SOCK_FILE)
     except OSError:
         pass
 
-    s.bind(SOCKFILE)
+    sock.bind(SOCK_FILE)
 
     try:
-        yield s
+        yield sock
     finally:
-        s.close()
+        sock.close()
         try:
-            os.remove(SOCKFILE)
+            os.remove(SOCK_FILE)
         except OSError:
             pass
 
 
 @contextmanager
-def setup_client():
-    # creates socket object
-    s = socket.socket(socket.AF_UNIX,
-                      socket.SOCK_DGRAM)
-
-    s.connect(SOCKFILE)
+def setup_client() -> Iterator[socket.socket]:
+    sock = socket.socket(socket.AF_UNIX, socket.SOCK_DGRAM)
+    sock.connect(SOCK_FILE)
 
     try:
-        yield s
+        yield sock
     finally:
-        s.close()
-
-    # tm = s.recv(1024)  # msg can only be 1024 bytes long
+        sock.close()
 
 
-def check_actions(sock, status):
-    timeout = time.time() + 0.9
+def send_message(message: str):
+    with setup_client() as sock:
+        data = message.encode("utf8")
+        sock.send(data)
+
+
+def check_actions(sock: socket.socket, status: Status):
+    timeout_time = time.time() + 0.9
 
     data = ""
-
     while True:
-        ready = select.select([sock], [], [], .2)
-        if time.time() > timeout:
+        ready = select.select([sock], [], [], 0.2)
+        if time.time() > timeout_time:
             break
         if ready[0]:
             try:
@@ -181,113 +189,88 @@ def check_actions(sock, status):
                 if data:
                     break
             except socket.error as e:
-                print('Lost connection to client. Printing buffer...', e)
+                print("Lost connection to client. Printing buffer...", e)
                 break
 
     if not data:
         return
 
-    action = data.decode("utf8")
-    if action == "toggle":
+    message = data.decode("utf8")
+    if message == Actions.TOGGLE:
         status.toggle()
-    elif action == "end":
-        status.next_timer()
-    elif action == "lock":
-        status.toggle_lock()
-    elif action.startswith("time"):
-        _, op, seconds = action.split(" ")
-        status.change(op, seconds)
+    elif message == Actions.END:
+        status.end()
+    elif message == Actions.LOCK:
+        status.lock()
+    elif message.startswith(Actions.TIMER):
+        _, op, seconds = message.split(" ")
+        status.timer(op, seconds)
 
 
-def action_display(args):
+def action_show(args):
+    status = Status(args.work_time, args.break_time)
 
-    status = Status(args.worktime, args.breaktime)
-
-    # Listen on socket
     with setup_listener() as sock:
         while True:
             status.show()
-            status.update()
+            status.tick()
             check_actions(sock, status)
 
 
 def action_toggle(args):
-    with setup_client() as s:
-        msg = "toggle"
-        s.send(msg.encode("utf8"))
+    send_message(Actions.TOGGLE.value)
 
 
 def action_end(args):
-    with setup_client() as s:
-        msg = "end"
-        s.send(msg.encode("utf8"))
+    send_message(Actions.END.value)
 
 
 def action_lock(args):
-    with setup_client() as s:
-        msg = "lock"
-        s.send(msg.encode("utf8"))
+    send_message(Actions.LOCK.value)
 
 
-def action_time(args):
-    with setup_client() as s:
-        msg = "time " + " ".join(args.delta)
-        s.send(msg.encode("utf8"))
+def action_timer(args):
+    op, seconds = args.delta
+    message = f"{Actions.TIMER} {op} {seconds}"
+    send_message(message)
 
 
-class ValidateTime(argparse.Action):
+class ValidateDelta(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
-        if values[0] not in '-+':
+        if values[0] not in "-+":
             parser.error("Time format should be +num or -num to add or remove time, respectively")
+
         if not values[1:].isdigit():
-            parser.error("Expected number after +/- but saw '{}'".format(values[1:]))
+            parser.error(f"Expected number after +/- but saw '{values[1:]}'")
 
-        # action = operator.add if values[0] == '+' else operator.sub
-        # value = int(values[1:])
-        action = "add" if values[0] == '+' else "sub"
-        value = values[1:]
+        op = ChangeOperator.ADD if values[0] == "+" else ChangeOperator.SUB
+        seconds = values[1:]
+        delta = (op, seconds)
 
-        setattr(namespace, self.dest, (action, value))
+        setattr(namespace, self.dest, delta)
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(
-        description="Pomodoro timer to be used with polybar")
-    # Display - main loop showing status
-    parser.add_argument("--worktime",
-                        type=int,
-                        default=30 * 60,
-                        help="Default work timer time in seconds")
-    parser.add_argument("--breaktime",
-                        type=int,
-                        default=5 * 60,
-                        help="Default break timer time in seconds")
-    parser.set_defaults(func=action_display)
+    parser = argparse.ArgumentParser(description="Pomodoro timer to be used with polybar")
 
-    sub = parser.add_subparsers()
+    parser.add_argument("--work-time", type=int, default=DEFAULT_WORK_TIME, help="Default work time (in seconds)")
+    parser.add_argument("--break-time", type=int, default=DEFAULT_BREAK_TIME, help="Default break time (in seconds)")
+    parser.set_defaults(func=action_show)
 
-    # start/stop timer
-    toggle = sub.add_parser("toggle",
-                            help="start/stop timer")
+    subparsers = parser.add_subparsers()
+
+    toggle = subparsers.add_parser(Actions.TOGGLE, help="start/stop the current timer")
     toggle.set_defaults(func=action_toggle)
 
-    # end timer
-    end = sub.add_parser("end",
-                         help="end current timer")
+    end = subparsers.add_parser(Actions.END, help="end the current timer")
     end.set_defaults(func=action_end)
 
-    # lock timer changes
-    lock = sub.add_parser("lock",
-                          help="lock time actions - prevent changing time")
+    lock = subparsers.add_parser(Actions.LOCK, help="lock time change actions")
     lock.set_defaults(func=action_lock)
 
-    # change timer
-    time = sub.add_parser("time",
-                          help="add/remove time to current timer")
-    time.add_argument("delta",
-                      action=ValidateTime,
-                      help="Time to add/remove to current timer (in seconds)")
-    time.set_defaults(func=action_time)
+    timer = subparsers.add_parser(Actions.TIMER, help="change time of the current timer")
+    timer.add_argument("delta", action=ValidateDelta, help="Time to add/remove to the current timer (in seconds)")
+    timer.set_defaults(func=action_timer)
 
     return parser.parse_args()
 
