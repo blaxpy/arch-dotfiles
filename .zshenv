@@ -1,5 +1,8 @@
 ZDOTDIR=$HOME/.config/zsh
 
+# Fixes "missing or unsuitable terminal: xterm-kitty".
+TERM=xterm-256color
+
 # FZF
 # https://github.com/junegunn/fzf
 FZF_DEFAULT_OPTS="--layout=reverse --height 20%"
