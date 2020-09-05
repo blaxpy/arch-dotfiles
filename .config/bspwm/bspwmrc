@@ -36,12 +36,16 @@ bspc config external_rules_command $HOME/.config/bspwm/external_rules
 wmname LG3D
 
 # PROGRAMS
-killall --quiet sxhkd || true; sxhkd &
-killall --quiet polybar || true; polybar top > /tmp/polybar.log 2>&1 &
-killall --quiet picom && sleep 0.1 || true; picom &
-killall --quiet dunst || true; dunst &
+killall --quiet sxhkd || true && sxhkd &
+killall --quiet polybar || true && polybar top > /tmp/polybar.log 2>&1 &
+killall --quiet dunst || true && dunst &
+killall --quiet picom && sleep 0.1 || true && picom &
 # Tray
-killall --quiet nm-applet || true; nm-applet &
-killall --quiet blueman-applet || true; blueman-applet &
-killall --quiet redshift-gtk redshift || true; redshift-gtk &
-killall --quiet copyq || true; copyq &
+killall --quiet nm-applet || true && nm-applet &
+killall --quiet blueman-applet || true && blueman-applet &
+pkill flameshot || true && flameshot &
+pkill copyq || true && copyq &
+# Wait for redshift to finish to prevent flickering.
+pkill redshift-gtk || true \
+    && while pgrep redshift > /dev/null; do sleep 0.1; done \
+    && redshift-gtk &
