@@ -1,0 +1,43 @@
+k9s:
+  refreshRate: 2
+  headless: false
+  readOnly: false
+  noIcons: false
+  logger:
+    tail: 100
+    buffer: 5000
+    sinceSeconds: -1
+    fullScreenLogs: false
+    textWrap: false
+    showTime: false
+  currentContext: kubernetes-admin@cluster.local
+  currentCluster: cluster.local
+  clusters:
+    cluster.local:
+      namespace:
+        active: testing1
+        favorites:
+        - testing1
+        - testing2
+        - testing3
+        - testing4
+        - testing5
+        - all
+      view:
+        active: pods
+      featureGates:
+        nodeShell: false
+      shellPod:
+        image: busybox:1.31
+        namespace: default
+        limits:
+          cpu: 100m
+          memory: 100Mi
+      portForwardAddress: localhost
+  thresholds:
+    cpu:
+      critical: 90
+      warn: 70
+    memory:
+      critical: 90
+      warn: 70

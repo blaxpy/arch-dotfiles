@@ -23,6 +23,10 @@
 .goldendict/*
 !.goldendict/article-style.css
 
+!.k9s/
+.k9s/*
+!.k9s/tracked_config.yml
+
 # config directory
 !.config/
 .config/*
