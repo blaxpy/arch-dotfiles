@@ -28,6 +28,7 @@ bspc rule --add TelegramDesktop state=floating
 bspc rule --add Slack state=floating
 bspc rule --add jetbrains-toolbox state=floating
 bspc rule --add Zathura state=tiled
+bspc rule --add Thunderbird desktop='^10'
 bspc config external_rules_command $HOME/.config/bspwm/external_rules
 
 # Fix Java applications.

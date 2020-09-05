@@ -164,6 +164,7 @@
           - chromium  # Web browser
           - torbrowser-launcher  # Tor web browser
           - profile-sync-daemon  # Browser profile in tmpfs
+          - thunderbird  # Mail client
           - keepassxc  # Password manager
           - goldendict  # Dictionary
           - calibre  # E-book manager
