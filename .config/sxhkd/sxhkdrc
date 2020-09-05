@@ -134,3 +134,10 @@ super + b
 
 super + space
     rofi -show run
+
+Print
+    flameshot gui
+shift + Print
+    flameshot full --clipboard
+ctrl + Print
+    flameshot full --path ~/Pictures
