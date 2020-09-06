@@ -43,6 +43,7 @@ killall --quiet picom && sleep 0.1 || true && picom &
 # Tray
 killall --quiet nm-applet || true && nm-applet &
 killall --quiet blueman-applet || true && blueman-applet &
+pkill udiskie || true && udiskie --tray &
 pkill flameshot || true && flameshot &
 pkill copyq || true && copyq &
 # Wait for redshift to finish to prevent flickering.
