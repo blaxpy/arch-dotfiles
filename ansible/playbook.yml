@@ -100,6 +100,11 @@
     - name: Install packages
       pacman:
         name:
+          # Package manager
+          - pacman-contrib  # Additional tools
+          # Documentation
+          - man-db
+          - man-pages
           # File systems
           # https://wiki.archlinux.org/index.php/File_systems
           - dosfstools
@@ -120,9 +125,6 @@
           - bluez
           - bluez-utils
           - blueman
-          # Documentation
-          - man-db
-          - man-pages
           # Input method framework
           - ibus
           # Xorg display server
@@ -146,6 +148,18 @@
           - dunst  # Notification daemon
           - hsetroot  # Wallpaper changer
           - yad  # Calendar
+          # File managers
+          - ranger  # Terminal file manager
+          - nautilus  # Graphical file manager
+          - tumbler # Image thumbnails
+          - ffmpegthumbnailer # Video thumbnails
+          - evince # PDF thumbnails
+          - file-roller  # Archiver
+          - gvfs-smb  # SMB/CIFS
+          - gvfs-nfs  # NFS
+          - gvfs-mtp  # Media players and mobile devices
+          - gvfs-gphoto2  # Digital cameras and mobile devices
+          - gvfs-afc  # Apple mobile devices
           # Fonts
           - ttf-jetbrains-mono
           # Shell
